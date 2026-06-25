@@ -25,14 +25,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: npm ci
 
       - name: Build
-        run: NITRO_PRESET=github-pages bun run build
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,7 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.output/public'
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
