@@ -1,2 +1,8 @@
+[phases.install]
+cmds = ["npm ci"]
+cacheDirectories = []
+
 [phases.build]
 cmds = ["npm run build"]
+dependsOn = ["install"]
+cacheDirectories = []
