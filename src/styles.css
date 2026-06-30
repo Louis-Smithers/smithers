@@ -33,6 +33,8 @@
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-coral: var(--coral);
+  --color-saffron: var(--saffron);
+  --color-teal: var(--teal);
 
   --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -46,6 +48,8 @@
   --ink: #0F1014;          /* graphite near-black */
   --paper: #EAE6DD;        /* bone */
   --coral: #FF5638;        /* saturated coral, hotter cousin of V2's rust */
+  --saffron: #F5B544;      /* metric numbers / wins */
+  --teal: #4FB8A8;          /* process/system labels */
 
   --background: var(--ink);
   --foreground: var(--paper);
@@ -218,8 +222,29 @@
   transform: translateY(0);
 }
 
+/* Surface paper — bone background with ink text (case studies, etc.) */
+@utility surface-paper {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+/* Stagger fade-in for tool icons */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Coral blob drift */
+@keyframes blob-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(8vw, 6vh) scale(1.12); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   * { scroll-behavior: auto !important; }
+  /* Blob and stagger animations */
+  [style*="blob-drift"] { animation: none !important; }
+  [style*="fade-in-up"] { animation: none !important; opacity: 1 !important; }
 }

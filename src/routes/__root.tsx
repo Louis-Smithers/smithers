@@ -93,10 +93,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Determine lang from the current URL path so the FR route advertises lang="fr".
+  // Falls back to "en" during SSR if no globalThis URL is available.
+  let lang = "en";
+  if (typeof location !== "undefined" && location.pathname.startsWith("/fr")) {
+    lang = "fr";
+  }
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <HeadContent />
+
       </head>
       <body>
         {children}
@@ -107,10 +114,5 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-    </QueryClientProvider>
-  );
+  return <Outlet />;
 }

@@ -15,8 +15,13 @@
     />
 
     <link rel="canonical" href="https://smithers.app/" />
+    <link rel="alternate" hrefLang="en" href="https://smithers.app/" />
+    <link rel="alternate" hrefLang="fr" href="https://smithers.app/fr" />
+    <link rel="alternate" hrefLang="x-default" href="https://smithers.app/" />
 
     <!-- Open Graph -->
+    <meta property="og:locale" content="en_CA" />
+    <meta property="og:locale:alternate" content="fr_CA" />
     <meta property="og:site_name" content="Smithers" />
     <meta
       property="og:title"
@@ -110,7 +115,7 @@
       }
     </script>
 
-    <!-- JSON-LD: FAQPage — keep in sync with FAQ array in src/App.tsx -->
+    <!-- JSON-LD: FAQPage — keep in sync with FAQ array in src/routes/index.tsx -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

@@ -1,13 +1,23 @@
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { hydrateRoot, createRoot } from "react-dom/client";
+import { RouterProvider } from "@tanstack/react-router";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { getRouter } from "./router";
 import "./styles.css";
-import App from "./App";
 
-const root = document.getElementById("root");
-if (!root) throw new Error("Root element #root not found");
+const router = getRouter();
+const rootEl = document.getElementById("root")!;
 
-createRoot(root).render(
+const tree = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <QueryClientProvider client={router.options.context.queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </StrictMode>
 );
+
+if (rootEl.hasChildNodes()) {
+  hydrateRoot(rootEl, tree);
+} else {
+  createRoot(rootEl).render(tree);
+}
