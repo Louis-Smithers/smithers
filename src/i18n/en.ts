@@ -128,6 +128,7 @@ export const en: Translations = {
   // How it works
   how: {
     sectionTitle: "How it works",
+    orderLabels: ["First", "Then", "Next", "Last"],
     steps: [
       { t: "Intro call", d: "30 minutes. We listen, you vent." },
       {
@@ -150,6 +151,7 @@ export const en: Translations = {
     sectionTitle: "Work that shipped",
     intro:
       "Small businesses across Canada, typically 5-50 people, often founder-led. Here’s what shipping looks like in practice.",
+    banner: "Recent work · Real numbers",
     beforeLabel: "Before",
     shippedLabel: "What we shipped",
     resultLabel: "Result",

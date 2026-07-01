@@ -93,11 +93,13 @@ export interface Translations {
   };
   how: {
     sectionTitle: string;
+    orderLabels: string[];
     steps: StepCopy[];
   };
   caseStudies: {
     sectionTitle: string;
     intro: string;
+    banner: string;
     beforeLabel: string;
     shippedLabel: string;
     resultLabel: string;

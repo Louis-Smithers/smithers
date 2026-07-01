@@ -38,7 +38,10 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
   --color-ink: var(--ink);
+  --color-ink-warm: var(--ink-warm);
+  --color-ink-cool: var(--ink-cool);
   --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
   --color-coral: var(--coral);
   --color-saffron: var(--saffron);
   --color-teal: var(--teal);
@@ -53,9 +56,14 @@
 
   /* Brand palette — graphite + bone + coral (dark mode, locked) */
   --ink: #0F1014;          /* graphite near-black */
+  --ink-warm: #141013;    /* warmer graphite — 2 hex points warmer than base, section rhythm */
+  --ink-cool: #0D1017;    /* cooler graphite — pulls toward blue-black, section rhythm */
   --paper: #EAE6DD;        /* bone */
+  --paper-warm: #F5EDE0;  /* warmer paper for Case Studies inversion */
+  --paper-warm-ink: #1A1310; /* ink text on warm paper */
   --coral: #FF5638;        /* saturated coral, hotter cousin of V2's rust */
   --saffron: #F5B544;      /* metric numbers / wins */
+  --saffron-on-paper: #B57F14; /* darker saffron variant for contrast on paper-warm */
   --teal: #4FB8A8;          /* process/system labels */
 
   --background: var(--ink);
@@ -73,7 +81,7 @@
   --secondary-foreground: var(--paper);
 
   --muted: #1F222B;
-  --muted-foreground: #8B897F;
+  --muted-foreground: #A29B8C;
 
   --accent: var(--coral);
   --accent-foreground: var(--ink);
@@ -220,10 +228,39 @@
   transform: translateY(0);
 }
 
-/* Surface paper — bone background with ink text (case studies, etc.) */
+/* Surface paper — warm bone background with warm ink text (case studies, etc.) */
 @utility surface-paper {
-  background-color: var(--paper);
-  color: var(--ink);
+  background-color: var(--paper-warm);
+  color: var(--paper-warm-ink);
+}
+
+/* Section-rhythm ink variants — subtle warm/cool shifts, same theme (no flip) */
+@utility surface-warm {
+  background-color: var(--ink-warm);
+}
+@utility surface-cool {
+  background-color: var(--ink-cool);
+}
+
+/* Hero coral wash — sits under content via ::before, not a background layer */
+@utility hero-wash {
+  position: relative;
+  isolation: isolate;
+}
+.hero-wash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    color-mix(in oklab, var(--coral) 8%, transparent),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-wash::before { opacity: 0.5; }
 }
 
 /* Stagger fade-in for tool icons */

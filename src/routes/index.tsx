@@ -152,6 +152,7 @@ export function SmithersLanding({ locale }: { locale: Locale }) {
           <Services t={t} />
           <Stack t={t} />
           <HowItWorks t={t} />
+          <CaseStudyBanner t={t} />
           <CaseStudies t={t} />
           <Team t={t} />
           <FaqSection t={t} />
@@ -426,9 +427,14 @@ function Hero({ t }: { t: T }) {
   const ctaRef = useMagneticHover();
 
   return (
-    <section id="top" className="relative">
+    <section id="top" className="hero-wash relative">
       <div className="mx-auto grid min-h-[88dvh] max-w-[1400px] grid-cols-12 gap-x-6 px-6 pb-20 pt-16 md:px-12 md:pt-24">
-        <p className="label-mono col-span-12 mt-2">{t.hero.eyebrow}</p>
+        <p
+          className="label-mono col-span-12 mt-2"
+          style={{ color: "var(--color-saffron)" }}
+        >
+          {t.hero.eyebrow}
+        </p>
 
         <h1
           ref={ref}
@@ -522,7 +528,7 @@ function Marquee({ t }: { t: T }) {
 
 function Problem({ t }: { t: T }) {
   return (
-    <section>
+    <section className="border-t border-border bg-[var(--ink-warm)]">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
         <SectionHeading title={t.problem.sectionTitle} />
         <p className="max-w-2xl text-lg text-foreground/65">{t.problem.intro}</p>
@@ -731,7 +737,10 @@ function ToolMark({ name, slug, color }: Tool) {
 
 function Stack({ t }: { t: T }) {
   return (
-    <section id="stack" className="scroll-mt-20 border-t border-border">
+    <section
+      id="stack"
+      className="scroll-mt-20 border-t border-border bg-[var(--ink-cool)]"
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
         <SectionHeading title={t.stack.sectionTitle} />
         <p className="max-w-2xl text-lg text-foreground/65">{t.stack.intro}</p>
@@ -768,7 +777,7 @@ function ToolRow({ group, last }: { group: ToolGroup; last: boolean }) {
       <div className="col-span-12 md:col-span-4">
         <h3
           className="display text-2xl md:text-3xl"
-          style={{ color: "var(--color-teal)" }}
+          style={{ color: "var(--color-teal)", fontWeight: 500 }}
         >
           {group.label}
         </h3>
@@ -811,6 +820,7 @@ function HowItWorks({ t }: { t: T }) {
             <Step
               key={s.t}
               step={s}
+              orderLabel={t.how.orderLabels[i]}
               last={i === t.how.steps.length - 1}
             />
           ))}
@@ -822,9 +832,11 @@ function HowItWorks({ t }: { t: T }) {
 
 function Step({
   step,
+  orderLabel,
   last,
 }: {
   step: { t: string; d: string };
+  orderLabel: string;
   last: boolean;
 }) {
   const ref = useReveal<HTMLLIElement>();
@@ -836,6 +848,12 @@ function Step({
       }`}
     >
       <div className="col-span-12 md:col-span-4 md:col-start-3">
+        <p
+          className="label-mono mb-2"
+          style={{ color: "var(--color-teal)", fontWeight: 500 }}
+        >
+          {orderLabel}
+        </p>
         <h3 className="display" style={{ fontSize: "clamp(1.5rem, 2.4vw, 2rem)" }}>
           {step.t}
         </h3>
@@ -844,6 +862,19 @@ function Step({
         {step.d}
       </p>
     </li>
+  );
+}
+
+/* ─── Case Study transition banner ───────────────────────────── */
+
+/** Narrow static coral strip signaling the transition into Case Studies. */
+function CaseStudyBanner({ t }: { t: T }) {
+  return (
+    <div className="border-y border-border bg-coral py-3 text-center text-ink">
+      <span className="label-mono" style={{ color: "var(--ink)" }}>
+        {t.caseStudies.banner}
+      </span>
+    </div>
   );
 }
 
@@ -980,12 +1011,13 @@ function CaseStudyCard({
               {study.tier}
             </span>
 
-            {/* Headline metric — static, not animated in compact view */}
+            {/* Headline metric — static, not animated in compact view.
+                Uses --saffron-on-paper (darker) for AA contrast against surface-paper. */}
             <p
               className="display mt-5 tabular-nums"
               style={{
                 fontSize: "clamp(1.5rem, 2.6vw, 2.1rem)",
-                color: "var(--color-saffron)",
+                color: "var(--saffron-on-paper)",
                 lineHeight: 1.15,
               }}
             >
@@ -1177,7 +1209,8 @@ function TeamRow({
           {member.tools.map((tool) => (
             <span
               key={tool}
-              className="rounded-sm border border-border px-2 py-0.5 font-mono text-xs text-foreground/45"
+              className="rounded-sm border px-2 py-0.5 font-mono text-xs text-[var(--color-teal)]"
+              style={{ borderColor: "color-mix(in oklab, var(--teal) 40%, transparent)" }}
             >
               {tool}
             </span>

@@ -126,6 +126,7 @@ export const fr: Translations = {
   // How it works
   how: {
     sectionTitle: "Comment ça marche",
+    orderLabels: ["D'abord", "Ensuite", "Puis", "Enfin"],
     steps: [
       { t: "Appel d'introduction", d: "30 minutes. On écoute, vous videz votre sac." },
       {
@@ -148,6 +149,7 @@ export const fr: Translations = {
     sectionTitle: "Ce qu'on a livré",
     intro:
       "Des PME partout au Canada, généralement 5 à 50 personnes, souvent dirigées par leur fondateur. Voici à quoi ressemble la livraison en pratique.",
+    banner: "Travaux récents · Chiffres réels",
     beforeLabel: "Avant",
     shippedLabel: "Ce qu'on a livré",
     resultLabel: "Résultat",
