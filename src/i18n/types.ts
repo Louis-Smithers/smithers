@@ -15,6 +15,7 @@ export interface StepCopy {
 export interface CaseStudyCopy {
   client: string;
   meta: string;
+  tier: string;
   rating: number;
   teaser: string;
   headline: string;
@@ -25,7 +26,11 @@ export interface CaseStudyCopy {
   metricPrimaryTo: string;
   metricSecondary: string;
   quote: string;
-  quoteAttrib: string;
+  attribution: {
+    name: string;
+    role: string;
+    company: string;
+  };
   tools: string[];
 }
 
@@ -65,6 +70,7 @@ export interface Translations {
   };
   logoStrip: {
     label: string;
+    chips: string[];
   };
   problem: {
     sectionTitle: string;
@@ -109,7 +115,6 @@ export interface Translations {
     items: FaqItemCopy[];
   };
   contact: {
-    eyebrow: string;
     h2Pre: string;
     h2Em: string;
     body: string;

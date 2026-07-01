@@ -71,9 +71,9 @@ const faqJsonLd = {
 };
 
 const TITLE =
-  "Smithers — Operations & Automation Consulting for Canadian Small Businesses";
+  "Smithers: Operations & Automation Consulting for Canadian Small Businesses";
 const DESCRIPTION =
-  "Smithers helps Canadian small businesses fix the systems they've outgrown — CRMs, spreadsheets, automations, and AI workflows that actually ship. Remote across Canada.";
+  "Smithers helps Canadian small businesses fix the systems they've outgrown: CRMs, spreadsheets, automations, and AI workflows that actually ship. Remote across Canada.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -126,8 +126,6 @@ function IndexPage() {
 }
 
 /* ─── Shared landing component ───────────────────────────────── */
-
-const TOTAL_SECTIONS = "08";
 
 export function SmithersLanding({ locale }: { locale: Locale }) {
   const t = useT(locale);
@@ -334,16 +332,13 @@ function useMagneticHover(cap = 6) {
   return ref;
 }
 
-/** Section heading with inline mono counter. */
-function SectionHeading({ n, title }: { n: string; title: string }) {
-  const ref = useReveal<HTMLDivElement>();
+/** Section heading. */
+function SectionHeading({ title }: { title: string }) {
+  const ref = useReveal<HTMLHeadingElement>();
   return (
-    <div ref={ref} className="reveal flex items-baseline gap-5 pb-12 md:gap-6">
-      <span className="label-mono shrink-0">
-        {n} / {TOTAL_SECTIONS}
-      </span>
-      <h2 className="display text-3xl md:text-4xl">{title}</h2>
-    </div>
+    <h2 ref={ref} className="reveal display pb-12 text-3xl md:text-4xl">
+      {title}
+    </h2>
   );
 }
 
@@ -432,7 +427,7 @@ function Hero({ t }: { t: T }) {
 
   return (
     <section id="top" className="relative">
-      <div className="mx-auto grid min-h-[88dvh] max-w-[1400px] grid-cols-12 gap-x-6 px-6 pb-20 pt-20 md:px-12 md:pt-28">
+      <div className="mx-auto grid min-h-[88dvh] max-w-[1400px] grid-cols-12 gap-x-6 px-6 pb-20 pt-16 md:px-12 md:pt-24">
         <p className="label-mono col-span-12 mt-2">{t.hero.eyebrow}</p>
 
         <h1
@@ -469,77 +464,23 @@ function Hero({ t }: { t: T }) {
   );
 }
 
-/* ─── Logo Strip ─────────────────────────────────────────────── */
-
-const LOGO_CLIENTS = [
-  "Bellwether Law",
-  "North & Pine Goods",
-  "Coastline Physio",
-  "Meridian Commercial",
-  "Atlas Ledger",
-  "Foundry Trades Co.",
-];
-
-function LogoWordmark({ name }: { name: string }) {
-  // Approximate character count for viewBox width (each char ~13px at 20px font)
-  const w = Math.max(120, name.length * 13 + 24);
-  return (
-    <svg
-      viewBox={`0 0 ${w} 28`}
-      height="28"
-      aria-hidden
-      className="shrink-0 cursor-default transition-all duration-200"
-      style={{ fill: "var(--paper)", opacity: 0.55 }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as SVGElement;
-        el.style.fill = "var(--coral)";
-        el.style.opacity = "1";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as SVGElement;
-        el.style.fill = "var(--paper)";
-        el.style.opacity = "0.55";
-      }}
-    >
-      <text
-        x="0"
-        y="21"
-        fontFamily="Geist, system-ui, sans-serif"
-        fontSize="20"
-        fontWeight="500"
-        letterSpacing="-0.02em"
-      >
-        {name}
-      </text>
-    </svg>
-  );
-}
+/* ─── Logo Strip (industry chips) ────────────────────────────── */
 
 function LogoStrip({ t }: { t: T }) {
-  const reducedMotion = useReducedMotion();
-  // Duplicate for seamless loop
-  const items = [...LOGO_CLIENTS, ...LOGO_CLIENTS];
-
   return (
-    <section aria-label={t.logoStrip.label} className="border-t border-border py-10 overflow-hidden">
-      <p className="label-mono text-center mb-7">{t.logoStrip.label}</p>
-      <div className="group relative">
-        <div
-          className="inline-flex items-center gap-16 whitespace-nowrap group-hover:[animation-play-state:paused]"
-          style={{
-            animation: reducedMotion ? "none" : "marquee 80s linear infinite",
-            willChange: "transform",
-          }}
-          aria-hidden
-        >
-          {items.map((name, i) => (
-            <LogoWordmark key={i} name={name} />
-          ))}
-        </div>
-        {/* Accessible visible list for screen readers */}
-        <ul className="sr-only">
-          {LOGO_CLIENTS.map((name) => (
-            <li key={name}>{name}</li>
+    <section aria-label={t.logoStrip.label} className="border-t border-border py-10">
+      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-6 gap-y-4 px-6 md:px-12">
+        <span className="label-mono shrink-0 text-foreground/45">
+          {t.logoStrip.label}
+        </span>
+        <ul className="flex flex-wrap items-center gap-2">
+          {t.logoStrip.chips.map((chip) => (
+            <li
+              key={chip}
+              className="border border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.14em] text-foreground/55"
+            >
+              {chip}
+            </li>
           ))}
         </ul>
       </div>
@@ -583,7 +524,7 @@ function Problem({ t }: { t: T }) {
   return (
     <section>
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="01" title={t.problem.sectionTitle} />
+        <SectionHeading title={t.problem.sectionTitle} />
         <p className="max-w-2xl text-lg text-foreground/65">{t.problem.intro}</p>
         <ul className="mt-16">
           {t.problem.pains.map((p: string, i: number) => (
@@ -634,7 +575,7 @@ function Services({ t }: { t: T }) {
   return (
     <section id="services" className="scroll-mt-20 border-t border-border bg-card/30">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="02" title={t.services.sectionTitle} />
+        <SectionHeading title={t.services.sectionTitle} />
         <p className="max-w-2xl text-lg text-foreground/65">{t.services.intro}</p>
 
         <div className="mt-14 grid grid-cols-1 gap-px bg-border md:grid-cols-3">
@@ -792,7 +733,7 @@ function Stack({ t }: { t: T }) {
   return (
     <section id="stack" className="scroll-mt-20 border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="03" title={t.stack.sectionTitle} />
+        <SectionHeading title={t.stack.sectionTitle} />
         <p className="max-w-2xl text-lg text-foreground/65">{t.stack.intro}</p>
 
         <ul className="mt-16">
@@ -864,12 +805,11 @@ function HowItWorks({ t }: { t: T }) {
   return (
     <section id="how" className="scroll-mt-20 border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="04" title={t.how.sectionTitle} />
+        <SectionHeading title={t.how.sectionTitle} />
         <ol className="mt-8 grid grid-cols-12 gap-x-6">
           {t.how.steps.map((s: StepCopy, i: number) => (
             <Step
               key={s.t}
-              index={i}
               step={s}
               last={i === t.how.steps.length - 1}
             />
@@ -881,11 +821,9 @@ function HowItWorks({ t }: { t: T }) {
 }
 
 function Step({
-  index,
   step,
   last,
 }: {
-  index: number;
   step: { t: string; d: string };
   last: boolean;
 }) {
@@ -897,13 +835,6 @@ function Step({
         last ? "border-b" : ""
       }`}
     >
-      <span
-        aria-hidden
-        className="outline-numeral pointer-events-none absolute -left-2 -top-6 select-none md:-left-4"
-        style={{ fontSize: "clamp(5rem, 11vw, 9.5rem)" }}
-      >
-        0{index + 1}
-      </span>
       <div className="col-span-12 md:col-span-4 md:col-start-3">
         <h3 className="display" style={{ fontSize: "clamp(1.5rem, 2.4vw, 2rem)" }}>
           {step.t}
@@ -959,7 +890,7 @@ function CaseStudies({ t }: { t: T }) {
   return (
     <section className="surface-paper border-t border-border/30 scroll-mt-20">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="05" title={t.caseStudies.sectionTitle} />
+        <SectionHeading title={t.caseStudies.sectionTitle} />
         <p
           className="max-w-2xl text-lg"
           style={{ color: "var(--ink)", opacity: 0.7 }}
@@ -1042,6 +973,12 @@ function CaseStudyCard({
             >
               {study.meta}
             </p>
+            <span
+              className="mt-2 inline-flex w-fit border px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-widest"
+              style={{ color: "var(--coral)", borderColor: "var(--coral)" }}
+            >
+              {study.tier}
+            </span>
 
             {/* Headline metric — static, not animated in compact view */}
             <p
@@ -1146,20 +1083,23 @@ function CaseStudyCard({
               </div>
 
               {/* Pull quote */}
-              <blockquote className="border-l-2 border-coral pl-5 text-left">
-                <p
-                  className="display-italic text-base md:text-lg"
-                  style={{ color: "var(--ink)", opacity: 0.85 }}
-                >
-                  "{study.quote}"
-                </p>
-                <cite
-                  className="mt-2 block not-italic font-mono text-xs"
+              <figure className="border-l-2 border-coral pl-5 text-left">
+                <blockquote>
+                  <p
+                    className="display-italic text-base md:text-lg"
+                    style={{ color: "var(--ink)", opacity: 0.85 }}
+                  >
+                    "{study.quote}"
+                  </p>
+                </blockquote>
+                <figcaption
+                  className="mt-2 font-mono text-xs"
                   style={{ color: "var(--ink)", opacity: 0.5 }}
                 >
-                  — {study.quoteAttrib}
-                </cite>
-              </blockquote>
+                  {study.attribution.name}, {study.attribution.role},{" "}
+                  {study.attribution.company}
+                </figcaption>
+              </figure>
             </div>
           </div>
         </AccordionPrimitive.Content>
@@ -1183,23 +1123,27 @@ function Team({ t }: { t: T }) {
   return (
     <section className="scroll-mt-20 border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="06" title={t.team.sectionTitle} />
-        <p className="max-w-2xl text-lg text-foreground/65">{t.team.intro}</p>
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-12">
+          <div className="col-span-12 md:col-span-5 md:sticky md:top-24 md:self-start">
+            <SectionHeading title={t.team.sectionTitle} />
+            <p className="max-w-md text-lg text-foreground/65">{t.team.intro}</p>
+          </div>
 
-        <div
-          ref={ref}
-          className="reveal mt-14 grid grid-cols-1 gap-px bg-border sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {t.team.members.map((member: TeamMemberCopy, i: number) => (
-            <TeamCard key={member.name} member={member} colorIndex={i} />
-          ))}
+          <div
+            ref={ref}
+            className="reveal col-span-12 divide-y divide-border md:col-span-7"
+          >
+            {t.team.members.map((member: TeamMemberCopy, i: number) => (
+              <TeamRow key={member.name} member={member} colorIndex={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function TeamCard({
+function TeamRow({
   member,
   colorIndex,
 }: {
@@ -1210,10 +1154,10 @@ function TeamCard({
   const isLight = bg === "var(--paper)" || bg === "var(--color-saffron)";
 
   return (
-    <article className="flex flex-col bg-background p-8 transition-colors hover:bg-card md:p-10">
+    <article className="flex gap-6 py-8 first:pt-0">
       <div
         aria-hidden
-        className="flex h-14 w-14 items-center justify-center rounded-sm font-sans text-lg font-semibold tracking-tight"
+        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-sm font-sans text-lg font-semibold tracking-tight"
         style={{
           backgroundColor: bg,
           color: isLight ? "var(--ink)" : "var(--paper)",
@@ -1221,22 +1165,24 @@ function TeamCard({
       >
         {member.initials}
       </div>
-      <h3 className="display mt-5 text-xl md:text-2xl">{member.name}</h3>
-      <p className="mt-1 text-sm" style={{ color: "var(--coral)" }}>
-        {member.role}
-      </p>
-      <p className="mt-3 text-sm text-foreground/65 leading-relaxed">
-        {member.specialty}
-      </p>
-      <div className="mt-5 flex flex-wrap gap-1.5">
-        {member.tools.map((tool) => (
-          <span
-            key={tool}
-            className="rounded-sm border border-border px-2 py-0.5 font-mono text-xs text-foreground/45"
-          >
-            {tool}
-          </span>
-        ))}
+      <div className="min-w-0">
+        <h3 className="display text-xl md:text-2xl">{member.name}</h3>
+        <p className="mt-1 text-sm" style={{ color: "var(--coral)" }}>
+          {member.role}
+        </p>
+        <p className="mt-3 text-sm text-foreground/65 leading-relaxed">
+          {member.specialty}
+        </p>
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {member.tools.map((tool) => (
+            <span
+              key={tool}
+              className="rounded-sm border border-border px-2 py-0.5 font-mono text-xs text-foreground/45"
+            >
+              {tool}
+            </span>
+          ))}
+        </div>
       </div>
     </article>
   );
@@ -1248,7 +1194,7 @@ function FaqSection({ t }: { t: T }) {
   return (
     <section id="faq" className="scroll-mt-20 border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading n="07" title={t.faq.sectionTitle} />
+        <SectionHeading title={t.faq.sectionTitle} />
         <div className="grid grid-cols-12 gap-x-6">
           <AccordionPrimitive.Root
             type="single"
@@ -1302,10 +1248,6 @@ function Contact({ t }: { t: T }) {
   return (
     <section id="contact" className="scroll-mt-20 border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 py-28 md:px-12 md:py-36">
-        <p className="label-mono mb-8">
-          08 / {TOTAL_SECTIONS} · {t.contact.eyebrow}
-        </p>
-
         <h2
           ref={ref}
           className="reveal display"

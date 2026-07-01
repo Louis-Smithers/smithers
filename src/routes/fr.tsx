@@ -45,9 +45,9 @@ const faqJsonLdFr = {
 };
 
 const TITLE_FR =
-  "Smithers — Conseil en opérations et automatisation pour les PME canadiennes";
+  "Smithers : Conseil en opérations et automatisation pour les PME canadiennes";
 const DESCRIPTION_FR =
-  "Smithers aide les PME canadiennes à corriger les systèmes qu'elles ont dépassés — CRM, tableaux, automatisations et flux IA qui livrent vraiment. En télétravail partout au Canada.";
+  "Smithers aide les PME canadiennes à corriger les systèmes qu'elles ont dépassés : CRM, tableaux, automatisations et flux IA qui livrent vraiment. En télétravail partout au Canada.";
 
 export const Route = createFileRoute("/fr")({
   head: () => ({

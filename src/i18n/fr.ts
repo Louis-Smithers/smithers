@@ -17,17 +17,25 @@ export const fr: Translations = {
 
   // Hero
   hero: {
-    eyebrow: "Fondé à Montréal · Opérations & automatisation · Partout au Canada",
+    eyebrow: "Fondée à Montréal",
     h1Pre: "Opérations et automatisation pour les PME qui ont",
     h1Em: "dépassé le bricolage.",
-    sub: "On démêle les CRM, les chiffriers et les automatisations à moitié construits sur lesquels votre équipe s'appuie — et on les remplace par des systèmes qui tournent tout seuls. En télétravail, partout au Canada.",
-    ctaBook: "Réserver un appel découverte",
+    sub: "On démêle les CRM, les chiffriers et les automatisations sur lesquels votre équipe s'appuie, et on livre des systèmes qui tournent tout seuls.",
+    ctaBook: "Réserver un appel",
     ctaHow: "Voir comment on travaille",
   },
 
   // Logo strip
   logoStrip: {
-    label: "Mandats récents",
+    label: "Secteurs où l'on livre",
+    chips: [
+      "Services professionnels",
+      "Commerce en ligne",
+      "Santé",
+      "Immobilier",
+      "Métiers",
+      "SaaS et tech",
+    ],
   },
 
   // Problem
@@ -61,14 +69,14 @@ export const fr: Translations = {
   services: {
     sectionTitle: "Comment on travaille avec vous",
     intro:
-      "Trois formats d'engagement. Choisissez celui qui correspond au travail — ou commencez petit et évoluez vers le suivant.",
+      "Trois formats d'engagement. Choisissez celui qui correspond au travail, ou commencez petit et évoluez vers le suivant.",
     priceCaption: "Tous les prix en CAD. L'appel découverte est gratuit.",
     tiers: [
       {
         name: "Demandes",
         tagline: "Des correctifs ciblés, bien délimités.",
         priceFrom: "À partir de 150 $ CAD/h · Payez seulement le temps utilisé",
-        body: "Pour quand quelque chose de précis est cassé ou manquant — une automatisation coincée, un nettoyage de données, un rapport rapide. Vous soumettez la demande, on cadre serré, et on livre en heures ou en jours.",
+        body: "Pour quand quelque chose de précis est cassé ou manquant : une automatisation coincée, un nettoyage de données, un rapport rapide. Vous soumettez la demande, on cadre serré, et on livre en heures ou en jours.",
         outcomes: [
           "Correctifs dans vos outils existants",
           "Petites automatisations",
@@ -80,8 +88,8 @@ export const fr: Translations = {
       {
         name: "Missions",
         tagline: "Des projets définis avec un résultat clair.",
-        priceFrom: "5 000 $ – 50 000 $ CAD · Prix fixe, portée écrite",
-        body: "Pour les travaux plus importants qui demandent de la planification, de la conception et un déploiement. Vous recevez un aperçu de Mission avant le début — vous savez exactement ce que vous payez.",
+        priceFrom: "5 000 $-50 000 $ CAD · Prix fixe, portée écrite",
+        body: "Pour les travaux plus importants qui demandent de la planification, de la conception et un déploiement. Vous recevez un aperçu de Mission avant le début : vous savez exactement ce que vous payez.",
         outcomes: [
           "Reconstructions de CRM",
           "Automatisation de bout en bout",
@@ -110,9 +118,9 @@ export const fr: Translations = {
   stack: {
     sectionTitle: "Les outils qu'on maîtrise",
     intro:
-      "On travaille avec les plateformes sur lesquelles les PME s'appuient déjà — et on bâtit sur mesure quand les solutions clés en main ne suffisent pas.",
+      "On travaille avec les plateformes sur lesquelles les PME s'appuient déjà, et on bâtit sur mesure quand les solutions clés en main ne suffisent pas.",
     footer:
-      "Vous utilisez une plateforme qu'on ne liste pas? Écrivez-nous — la plupart des outils parlent les mêmes API, et on y a probablement déjà touché.",
+      "Vous utilisez une plateforme qu'on ne liste pas? Écrivez-nous : la plupart des outils parlent les mêmes API, et on y a probablement déjà touché.",
   },
 
   // How it works
@@ -139,7 +147,7 @@ export const fr: Translations = {
   caseStudies: {
     sectionTitle: "Ce qu'on a livré",
     intro:
-      "Des PME partout au Canada — généralement 5 à 50 personnes, souvent dirigées par leur fondateur. Voici à quoi ressemble la livraison en pratique.",
+      "Des PME partout au Canada, généralement 5 à 50 personnes, souvent dirigées par leur fondateur. Voici à quoi ressemble la livraison en pratique.",
     beforeLabel: "Avant",
     shippedLabel: "Ce qu'on a livré",
     resultLabel: "Résultat",
@@ -148,7 +156,8 @@ export const fr: Translations = {
     studies: [
       {
         client: "Bellwether Law",
-        meta: "Services professionnels · 15 personnes · Mission",
+        meta: "Services professionnels · 15 personnes",
+        tier: "Mission",
         rating: 5,
         teaser: "On a arrêté de faire le travail qui n'était pas du droit.",
         headline: "8 h/sem → 45 min/sem sur les ouvertures de dossier",
@@ -162,19 +171,24 @@ export const fr: Translations = {
         metricSecondary: "Zéro prospect perdu en 6 mois après le lancement.",
         quote:
           "On a arrêté de faire le travail qui n'était pas du droit. Le premier mois a remboursé le mandat.",
-        quoteAttrib: "Daniel Reyes, associé directeur, Bellwether Law",
+        attribution: {
+          name: "Daniel Reyes",
+          role: "Associé directeur",
+          company: "Bellwether Law",
+        },
         tools: ["Clio", "Zapier", "Google Sheets"],
       },
       {
         client: "North & Pine Goods",
-        meta: "Commerce en ligne (DTC) · 8 personnes · Mission + Conseil",
+        meta: "Commerce en ligne (DTC) · 8 personnes",
+        tier: "Mission + Conseil",
         rating: 5,
         teaser: "Les retours sont passés de trois jours à une demi-journée.",
         headline: "Retours : 3 jours → 4 h",
         before:
           "Les retours s'accumulaient dans une boîte Gmail, les remboursements se perdaient entre Shopify et QuickBooks, et les flux Klaviyo s'envoyaient avec des données périmées.",
         shipped:
-          "Portail de retours personnalisé dans Retool sur Supabase, synchronisation bidirectionnelle Shopify ↔ QuickBooks, et segments Klaviyo reconstruits à partir de données clients nettoyées.",
+          "Portail de retours personnalisé dans Retool sur Supabase, synchronisation bidirectionnelle Shopify vers QuickBooks, et segments Klaviyo reconstruits à partir de données clients nettoyées.",
         metricPrimary: "3 jours → 4 h",
         metricPrimaryFrom: "3 jours",
         metricPrimaryTo: "4 h",
@@ -182,14 +196,19 @@ export const fr: Translations = {
           "~12 000 $/mois en remboursements autrefois bloqués, maintenant traités en un jour ouvrable.",
         quote:
           "J'ai arrêté de déplacer de l'argent manuellement entre les systèmes. Ça seul valait la reconstruction.",
-        quoteAttrib: "Émilie Lavoie, fondatrice, North & Pine Goods",
+        attribution: {
+          name: "Émilie Lavoie",
+          role: "Fondatrice",
+          company: "North & Pine Goods",
+        },
         tools: ["Retool", "Supabase", "Shopify", "QuickBooks", "Klaviyo"],
       },
       {
         client: "Coastline Physio",
-        meta: "Santé (multi-cliniques) · 30 personnes · Mission",
+        meta: "Santé (multi-cliniques) · 30 personnes",
+        tier: "Mission",
         rating: 5,
-        teaser: "Les rendez-vous manqués coupés de moitié; un après-midi récupéré par clinique.",
+        teaser: "Les rendez-vous manqués coupés de moitié, un après-midi récupéré par clinique.",
         headline: "Rendez-vous manqués : 22 % → 9 %",
         before:
           "Les rendez-vous manqués coûtaient plusieurs milliers de dollars par semaine. Le personnel de la réception passait ses matinées à téléphoner aux patients pour les rappels de rendez-vous.",
@@ -202,12 +221,17 @@ export const fr: Translations = {
           "~80 000 $/an en revenus de rendez-vous récupérés dans quatre cliniques.",
         quote:
           "Les rappels se font tout seuls. Mon équipe d'accueil a récupéré un après-midi.",
-        quoteAttrib: "Dre Anika Chen, directrice clinique, Coastline Physio",
+        attribution: {
+          name: "Dre Anika Chen",
+          role: "Directrice clinique",
+          company: "Coastline Physio",
+        },
         tools: ["Airtable", "Twilio", "n8n"],
       },
       {
         client: "Meridian Commercial",
-        meta: "Immobilier commercial · 22 personnes · Mission + Conseil",
+        meta: "Immobilier commercial · 22 personnes",
+        tier: "Mission + Conseil",
         rating: 5,
         teaser: "Les courtiers ont arrêté de combattre le système et l'ont adopté.",
         headline: "Délai prospect-visite : 5 jours → 36 h",
@@ -222,7 +246,11 @@ export const fr: Translations = {
           "Les agents récupèrent ~6 h/sem chacun sur la gestion des inscriptions.",
         quote:
           "Nos agents ont arrêté de se battre contre le système et ont commencé à l'utiliser. La visibilité du pipeline a triplé.",
-        quoteAttrib: "James MacIntyre, associé principal, Meridian Commercial",
+        attribution: {
+          name: "James MacIntyre",
+          role: "Associé principal",
+          company: "Meridian Commercial",
+        },
         tools: ["HubSpot", "Retool", "Supabase", "OpenAI"],
       },
     ],
@@ -232,7 +260,7 @@ export const fr: Translations = {
   team: {
     sectionTitle: "L'équipe",
     intro:
-      "Une petite équipe senior. Vous travaillerez directement avec les personnes qui construisent votre système — aucun transfert à un gestionnaire de compte.",
+      "Une petite équipe senior. Vous travaillerez directement avec les personnes qui construisent votre système, aucun transfert à un gestionnaire de compte.",
     members: [
       {
         initials: "ED",
@@ -271,7 +299,7 @@ export const fr: Translations = {
     items: [
       {
         q: "Qu'est-ce que Smithers fait concrètement?",
-        a: "Smithers est une firme-conseil canadienne en opérations et automatisation pour les PME. On intervient quand la configuration de vos outils a atteint ses limites — CRM emmêlés, chiffriers envahissants, automatisations Zapier à moitié construites, rapports manuels — et on les remplace par des systèmes qui travaillent en silence. Les mandats vont du correctif ponctuel aux constructions de plusieurs semaines jusqu'à l'accompagnement continu.",
+        a: "Smithers est une firme-conseil canadienne en opérations et automatisation pour les PME. On intervient quand la configuration de vos outils a atteint ses limites : CRM emmêlés, chiffriers envahissants, automatisations Zapier à moitié construites, rapports manuels, et on les remplace par des systèmes qui travaillent en silence. Les mandats vont du correctif ponctuel aux constructions de plusieurs semaines jusqu'à l'accompagnement continu.",
       },
       {
         q: "Où est basé Smithers et avec qui travaillez-vous?",
@@ -279,7 +307,7 @@ export const fr: Translations = {
       },
       {
         q: "En quoi Smithers est-il différent d'une firme-conseil ou d'une agence classique?",
-        a: "Les firmes-conseils traditionnelles font des présentations et partent. Les agences construisent quelque chose et vous facturent indéfiniment pour le maintenir. Smithers est une petite équipe senior qui cadre des mandats serrés, livre des systèmes qui fonctionnent, les documente, et forme votre équipe pour qu'elle soit propriétaire de ce qu'on a construit. On est payés pour se rendre inutiles sur chaque projet — pas pour s'intégrer indéfiniment.",
+        a: "Les firmes-conseils traditionnelles font des présentations et partent. Les agences construisent quelque chose et vous facturent indéfiniment pour le maintenir. Smithers est une petite équipe senior qui cadre des mandats serrés, livre des systèmes qui fonctionnent, les documente, et forme votre équipe pour qu'elle soit propriétaire de ce qu'on a construit. On est payés pour se rendre inutiles sur chaque projet, pas pour s'intégrer indéfiniment.",
       },
       {
         q: "Avec quels outils et plateformes travaillez-vous?",
@@ -287,7 +315,7 @@ export const fr: Translations = {
       },
       {
         q: "Combien ça coûte de travailler avec Smithers?",
-        a: "Les Demandes — des correctifs ponctuels et bien ciblés — sont facturées à l'heure ou en petits blocs à prix fixe. Les Missions sont des projets à prix fixe cadrés à partir d'un aperçu de Mission écrit, généralement entre 5 000 $ et 50 000 $ CAD selon la complexité. Les forfaits de conseil et support commencent à 2 000 $ CAD par mois. L'appel d'introduction est gratuit, et vous verrez toujours la portée et le prix par écrit avant que tout travail payant commence.",
+        a: "Les Demandes (des correctifs ponctuels et bien ciblés) sont facturées à l'heure ou en petits blocs à prix fixe. Les Missions sont des projets à prix fixe cadrés à partir d'un aperçu de Mission écrit, généralement entre 5 000 $ et 50 000 $ CAD selon la complexité. Les forfaits de conseil et support commencent à 2 000 $ CAD par mois. L'appel d'introduction est gratuit, et vous verrez toujours la portée et le prix par écrit avant que tout travail payant commence.",
       },
       {
         q: "Combien de temps dure une Mission typique?",
@@ -299,7 +327,7 @@ export const fr: Translations = {
       },
       {
         q: "Notre équipe pourra-t-elle maintenir ce que vous construisez après votre départ?",
-        a: "Oui. Chaque Mission se termine par une documentation écrite et une session de formation pour les membres de votre équipe qui seront propriétaires du système. On construit pour la passation, pas pour le verrouillage — l'objectif est que votre équipe puisse étendre, déboguer et opérer ce qu'on a construit sans avoir besoin de nous rappeler.",
+        a: "Oui. Chaque Mission se termine par une documentation écrite et une session de formation pour les membres de votre équipe qui seront propriétaires du système. On construit pour la passation, pas pour le verrouillage : l'objectif est que votre équipe puisse étendre, déboguer et opérer ce qu'on a construit sans avoir besoin de nous rappeler.",
       },
       {
         q: "Pouvez-vous nous aider à comprendre où l'IA s'inscrit dans notre entreprise?",
@@ -307,23 +335,22 @@ export const fr: Translations = {
       },
       {
         q: "Comment on commence?",
-        a: "Réservez un appel découverte gratuit de 30 minutes. On écoutera ce qui est cassé, on posera quelques questions, et on vous dira honnêtement si Smithers est la bonne équipe pour le réparer — et si ce n'est pas nous, vers qui vous tourner. Écrivez-nous à e@smithers.app ou appelez le 514-806-0510 pour le planifier.",
+        a: "Réservez un appel découverte gratuit de 30 minutes. On écoutera ce qui est cassé, on posera quelques questions, et on vous dira honnêtement si Smithers est la bonne équipe pour le réparer, et si ce n'est pas nous, vers qui vous tourner. Écrivez-nous à e@smithers.app ou appelez le 514-806-0510 pour le planifier.",
       },
     ],
   },
 
   // Contact
   contact: {
-    eyebrow: "Parlons-en",
     h2Pre: "Voyons si on est",
     h2Em: "faits pour travailler ensemble.",
-    body: "Trente minutes, pas de présentation, pas de pitch. Dites-nous ce qui est cassé et on vous dira honnêtement si Smithers est la bonne équipe pour le réparer — et si ce n'est pas nous, on vous indiquera où chercher.",
+    body: "Trente minutes, pas de présentation, pas de pitch. Dites-nous ce qui est cassé et on vous dira honnêtement si Smithers est la bonne équipe pour le réparer, et si ce n'est pas nous, on vous indiquera où chercher.",
     contactLabel: "Votre point de contact",
     contactName: "Erico Di Teodoro",
     contactRole: "Stratège principal",
     emailLabel: "Courriel",
     phoneLabel: "Téléphone",
-    cta: "Réserver un appel découverte",
+    cta: "Réserver un appel",
   },
 
   // Footer

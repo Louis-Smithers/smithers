@@ -19,17 +19,25 @@ export const en: Translations = {
 
   // Hero
   hero: {
-    eyebrow: "Est. Montreal · Operations & Automation · Canada-wide",
+    eyebrow: "Est. Montreal",
     h1Pre: "Operations and automation for small businesses that have",
     h1Em: "outgrown duct tape.",
-    sub: "We untangle the CRMs, spreadsheets, and half-built Zapier flows your team relies on — and replace them with systems that quietly work. Remote-first, across Canada.",
-    ctaBook: "Book a discovery call",
+    sub: "We untangle the CRMs, spreadsheets, and Zapier flows your team relies on, and ship systems that quietly work.",
+    ctaBook: "Book a call",
     ctaHow: "See how we work",
   },
 
   // Logo strip
   logoStrip: {
-    label: "Recent work",
+    label: "Industries we ship in",
+    chips: [
+      "Professional services",
+      "E-commerce",
+      "Healthcare",
+      "Real estate",
+      "Trades",
+      "SaaS & tech",
+    ],
   },
 
   // Problem
@@ -43,7 +51,7 @@ export const en: Translations = {
       "Zapier flows held together by hope",
       "Reports that take 3 hours and tell you nothing",
       "Onboarding that depends on one person's memory",
-      "“We should really do something with AI” sitting on a Post-it",
+      "“We should really do something with AI,” sitting on a Post-it",
     ],
   },
 
@@ -63,14 +71,14 @@ export const en: Translations = {
   services: {
     sectionTitle: "How we work with you",
     intro:
-      "Three engagement shapes. Pick the one that fits the work — or start small and grow into the next.",
+      "Three engagement shapes. Pick the one that fits the work, or start small and grow into the next.",
     priceCaption: "All prices CAD. Discovery call is free.",
     tiers: [
       {
         name: "Requests",
         tagline: "Small, well-scoped fixes.",
         priceFrom: "From $150 CAD/hr · Pay only for time used",
-        body: "For when something specific is broken or missing — a stuck automation, a data cleanup, a quick report. You send the request, we scope it tight, and we ship within hours or days.",
+        body: "For when something specific is broken or missing: a stuck automation, a data cleanup, a quick report. You send the request, we scope it tight, and we ship within hours or days.",
         outcomes: [
           "Bug fixes in your existing tools",
           "Small automations",
@@ -82,7 +90,7 @@ export const en: Translations = {
       {
         name: "Missions",
         tagline: "Defined projects with a clear outcome.",
-        priceFrom: "$5,000 – $50,000 CAD · Fixed price, written scope",
+        priceFrom: "$5,000-$50,000 CAD · Fixed price, written scope",
         body: "Bigger work that needs scoping, design, and rollout. You get a Mission Overview before we start so you know exactly what you're paying for.",
         outcomes: [
           "CRM rebuilds",
@@ -90,7 +98,7 @@ export const en: Translations = {
           "Custom internal tools",
           "AI workflows that actually ship",
         ],
-        typical: "2–8 weeks",
+        typical: "2-8 weeks",
       },
       {
         name: "Advisory & Support",
@@ -112,9 +120,9 @@ export const en: Translations = {
   stack: {
     sectionTitle: "The stack we know",
     intro:
-      "We work fluently with the platforms small businesses already rely on — and we build custom when off-the-shelf doesn’t fit.",
+      "We work fluently with the platforms small businesses already rely on, and we build custom when off-the-shelf doesn’t fit.",
     footer:
-      "Already on a stack we don’t list? Send it over — most platforms speak the same APIs, and we’ve probably touched it.",
+      "Already on a stack we don’t list? Send it over: most platforms speak the same APIs, and we’ve probably touched it.",
   },
 
   // How it works
@@ -141,7 +149,7 @@ export const en: Translations = {
   caseStudies: {
     sectionTitle: "Work that shipped",
     intro:
-      "Small businesses across Canada — typically 5 to 50 people, often founder-led. Here’s what shipping looks like in practice.",
+      "Small businesses across Canada, typically 5-50 people, often founder-led. Here’s what shipping looks like in practice.",
     beforeLabel: "Before",
     shippedLabel: "What we shipped",
     resultLabel: "Result",
@@ -150,7 +158,8 @@ export const en: Translations = {
     studies: [
       {
         client: "Bellwether Law",
-        meta: "Professional services · 15 people · Mission",
+        meta: "Professional services · 15 people",
+        tier: "Mission",
         rating: 5,
         teaser: "Stopped doing the work that wasn't lawyering.",
         headline: "8 hrs/wk → 45 min/wk on intake",
@@ -164,19 +173,24 @@ export const en: Translations = {
         metricSecondary: "Zero leads lost in 6 months post-launch.",
         quote:
           "We stopped doing the work that wasn’t lawyering. The first month paid for the engagement.",
-        quoteAttrib: "Daniel Reyes, Managing Partner, Bellwether Law",
+        attribution: {
+          name: "Daniel Reyes",
+          role: "Managing Partner",
+          company: "Bellwether Law",
+        },
         tools: ["Clio", "Zapier", "Google Sheets"],
       },
       {
         client: "North & Pine Goods",
-        meta: "E-commerce (DTC) · 8 people · Mission + Advisory",
+        meta: "E-commerce (DTC) · 8 people",
+        tier: "Mission + Advisory",
         rating: 5,
         teaser: "Returns from three days down to half a shift.",
         headline: "3 days → 4 hrs on returns",
         before:
           "Returns lived in a Gmail inbox, refunds got lost between Shopify and QuickBooks, and Klaviyo flows fired off stale customer data.",
         shipped:
-          "Custom returns portal in Retool over Supabase, two-way Shopify ↔ QuickBooks sync, and rebuilt Klaviyo segments fed from clean customer records.",
+          "Custom returns portal in Retool over Supabase, two-way Shopify to QuickBooks sync, and rebuilt Klaviyo segments fed from clean customer records.",
         metricPrimary: "3 days → 4 hrs",
         metricPrimaryFrom: "3 days",
         metricPrimaryTo: "4 hrs",
@@ -184,14 +198,19 @@ export const en: Translations = {
           "~$12,000/mo in refunds previously stuck in limbo, now closing within a business day.",
         quote:
           "I stopped manually moving money between systems. That alone was worth the rebuild.",
-        quoteAttrib: "Émilie Lavoie, Founder, North & Pine Goods",
+        attribution: {
+          name: "Émilie Lavoie",
+          role: "Founder",
+          company: "North & Pine Goods",
+        },
         tools: ["Retool", "Supabase", "Shopify", "QuickBooks", "Klaviyo"],
       },
       {
         client: "Coastline Physio",
-        meta: "Healthcare (multi-clinic) · 30 people · Mission",
+        meta: "Healthcare (multi-clinic) · 30 people",
+        tier: "Mission",
         rating: 5,
-        teaser: "No-shows cut in half; an afternoon back per clinic.",
+        teaser: "No-shows cut in half, an afternoon back per clinic.",
         headline: "No-shows: 22% → 9%",
         before:
           "No-shows were costing four figures a week. Front-desk staff spent mornings phoning patients with appointment reminders.",
@@ -204,12 +223,17 @@ export const en: Translations = {
           "~$80,000/year in recovered appointment revenue across four clinics.",
         quote:
           "The reminders run themselves. My front desk got an afternoon back.",
-        quoteAttrib: "Dr. Anika Chen, Clinical Director, Coastline Physio",
+        attribution: {
+          name: "Dr. Anika Chen",
+          role: "Clinical Director",
+          company: "Coastline Physio",
+        },
         tools: ["Airtable", "Twilio", "n8n"],
       },
       {
         client: "Meridian Commercial",
-        meta: "Commercial real estate · 22 people · Mission + Advisory",
+        meta: "Commercial real estate · 22 people",
+        tier: "Mission + Advisory",
         rating: 5,
         teaser: "Agents stopped fighting the system and started using it.",
         headline: "Lead-to-tour: 5 days → 36 hrs",
@@ -224,7 +248,11 @@ export const en: Translations = {
           "Agents reclaiming ~6 hrs/wk of listing admin each.",
         quote:
           "Our agents stopped fighting the system and started using it. Pipeline visibility tripled.",
-        quoteAttrib: "James MacIntyre, Principal, Meridian Commercial",
+        attribution: {
+          name: "James MacIntyre",
+          role: "Principal",
+          company: "Meridian Commercial",
+        },
         tools: ["HubSpot", "Retool", "Supabase", "OpenAI"],
       },
     ],
@@ -234,7 +262,7 @@ export const en: Translations = {
   team: {
     sectionTitle: "The team",
     intro:
-      "A small senior team. You’ll work directly with the people building your system — no account-manager handoffs.",
+      "A small senior team. You’ll work directly with the people building your system, no account-manager handoffs.",
     members: [
       {
         initials: "ED",
@@ -273,7 +301,7 @@ export const en: Translations = {
     items: [
       {
         q: "What does Smithers actually do?",
-        a: "Smithers is a Canadian operations and automation consultancy for small businesses. We come in when your tools have outgrown the way you set them up — tangled CRMs, sprawling spreadsheets, half-built Zapier flows, manual reports — and we replace them with systems that quietly do the work. Engagements range from one-off fixes to multi-week builds to ongoing advisory.",
+        a: "Smithers is a Canadian operations and automation consultancy for small businesses. We come in when your tools have outgrown the way you set them up: tangled CRMs, sprawling spreadsheets, half-built Zapier flows, manual reports, and we replace them with systems that quietly do the work. Engagements range from one-off fixes to multi-week builds to ongoing advisory.",
       },
       {
         q: "Where is Smithers based and who do you work with?",
@@ -281,7 +309,7 @@ export const en: Translations = {
       },
       {
         q: "How is Smithers different from a regular consulting firm or agency?",
-        a: "Traditional consulting firms write slide decks and leave. Agencies build something and bill you forever to maintain it. Smithers is a small senior team that scopes tight engagements, ships working systems, documents them, and trains your team to own what we build. We’re paid to make ourselves unnecessary on each project — not to embed indefinitely.",
+        a: "Traditional consulting firms write slide decks and leave. Agencies build something and bill you forever to maintain it. Smithers is a small senior team that scopes tight engagements, ships working systems, documents them, and trains your team to own what we build. We’re paid to make ourselves unnecessary on each project, not to embed indefinitely.",
       },
       {
         q: "What tools and platforms do you work with?",
@@ -289,7 +317,7 @@ export const en: Translations = {
       },
       {
         q: "How much does it cost to work with Smithers?",
-        a: "Requests — small, scoped fixes — are billed hourly or in small fixed-price blocks. Missions are fixed-price projects scoped from a written Mission Overview, typically ranging from $5,000 to $50,000 CAD depending on complexity. Advisory and support retainers start at $2,000 CAD per month. The intro call is free, and you’ll always see scope and price in writing before any paid work starts.",
+        a: "Requests (small, scoped fixes) are billed hourly or in small fixed-price blocks. Missions are fixed-price projects scoped from a written Mission Overview, typically ranging from $5,000 to $50,000 CAD depending on complexity. Advisory and support retainers start at $2,000 CAD per month. The intro call is free, and you’ll always see scope and price in writing before any paid work starts.",
       },
       {
         q: "How long does a typical Mission take?",
@@ -301,7 +329,7 @@ export const en: Translations = {
       },
       {
         q: "Will my team be able to maintain what you build after you’re gone?",
-        a: "Yes. Every Mission ends with written documentation and a training session for the people on your team who will own the system. We build for handoff, not lock-in — the goal is that your team can extend, debug, and operate what we built without needing to call us back.",
+        a: "Yes. Every Mission ends with written documentation and a training session for the people on your team who will own the system. We build for handoff, not lock-in: the goal is that your team can extend, debug, and operate what we built without needing to call us back.",
       },
       {
         q: "Can you help us figure out where AI fits in our business?",
@@ -316,16 +344,15 @@ export const en: Translations = {
 
   // Contact
   contact: {
-    eyebrow: "Let’s talk",
     h2Pre: "Let’s see if we’re",
     h2Em: "a fit.",
-    body: "Thirty minutes, no slides, no pitch. Tell us what’s broken and we’ll tell you, honestly, whether Smithers is the right team to fix it — and if we’re not, where to look instead.",
+    body: "Thirty minutes, no slides, no pitch. Tell us what’s broken and we’ll tell you, honestly, whether Smithers is the right team to fix it, and if we’re not, where to look instead.",
     contactLabel: "Your point of contact",
     contactName: "Erico Di Teodoro",
     contactRole: "Lead Strategist",
     emailLabel: "Email",
     phoneLabel: "Phone",
-    cta: "Book a discovery call",
+    cta: "Book a call",
   },
 
   // Footer
