@@ -232,6 +232,9 @@
 @utility surface-paper {
   background-color: var(--paper-warm);
   color: var(--paper-warm-ink);
+  --foreground: var(--paper-warm-ink);
+  --color-foreground: var(--paper-warm-ink);
+  --border: rgba(15, 16, 20, 0.12);
 }
 
 /* Section-rhythm ink variants — subtle warm/cool shifts, same theme (no flip) */
@@ -263,6 +266,16 @@
   .hero-wash::before { opacity: 0.5; }
 }
 
+/* Hero stagger entrance */
+@keyframes hero-entrance {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-stagger {
+  opacity: 0;
+  animation: hero-entrance 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Stagger fade-in for tool icons */
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(6px); }
@@ -275,11 +288,236 @@
   to   { transform: translate(8vw, 6vh) scale(1.12); }
 }
 
+/* ── Workflow Pipeline (Sound Familiar) ────────────────────── */
+
+/* Pipeline scroll — hide scrollbar on mobile */
+.wf-pipeline-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.wf-pipeline-scroll::-webkit-scrollbar { display: none; }
+
+/* Input field — simulated text input */
+.wf-input-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  padding: 0.6rem 1rem;
+  width: 200px;
+  background: var(--ink);
+  transition: border-color 300ms;
+}
+.wf-input-field:has(.wf-action-active) {
+  border-color: var(--color-teal);
+}
+
+/* Blinking cursor */
+.wf-cursor {
+  display: inline-block;
+  width: 1px;
+  height: 1.1em;
+  background: var(--coral);
+  animation: wf-blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes wf-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* Action button inside input */
+.wf-action-btn {
+  padding: 1px 5px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  font-size: 0.55rem;
+  transition: border-color 200ms, color 200ms;
+}
+.wf-action-active {
+  border-color: var(--color-teal);
+  color: var(--color-teal) !important;
+}
+
+/* Connector line between nodes */
+.wf-connector-line {
+  width: 24px;
+  min-width: 12px;
+  flex: 1 1 24px;
+  height: 1px;
+  background: var(--border);
+  transition: background 300ms;
+}
+.wf-connector-active {
+  background: var(--color-teal);
+}
+
+/* Workflow node card */
+.wf-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  min-width: 80px;
+  position: relative;
+  overflow: visible;
+  transition: border-color 300ms, box-shadow 300ms;
+}
+
+.wf-node-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-foreground);
+  opacity: 0.45;
+  white-space: nowrap;
+}
+
+/* Running glow */
+.wf-node-running {
+  box-shadow: 0 0 10px 0 color-mix(in oklab, var(--color-saffron) 25%, transparent);
+}
+
+/* Fixing glow */
+.wf-node-fixing {
+  box-shadow: 0 0 10px 0 color-mix(in oklab, var(--color-saffron) 25%, transparent);
+}
+
+/* Status badge — top-right corner */
+.wf-node-status {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+
+.wf-badge-ok,
+.wf-badge-err,
+.wf-badge-fix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  animation: wf-pop 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-badge-ok {
+  background: var(--color-teal);
+  color: var(--ink);
+}
+
+.wf-badge-err {
+  background: var(--coral);
+  color: var(--ink);
+}
+
+.wf-badge-fix {
+  background: var(--color-saffron);
+  color: var(--ink);
+  animation: wf-spin 1s linear infinite;
+}
+
+.wf-badge-run {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-saffron);
+  animation: wf-pulse 700ms ease-in-out infinite;
+}
+
+@keyframes wf-pop {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wf-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.8); }
+  50%      { opacity: 1;   transform: scale(1.2); }
+}
+
+@keyframes wf-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Output field */
+.wf-output-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  width: 200px;
+  transition: border-color 300ms, opacity 300ms, color 300ms;
+  white-space: nowrap;
+}
+
+.wf-output-hidden {
+  opacity: 0.25;
+}
+
+.wf-output-visible {
+  opacity: 1;
+}
+
+.wf-output-error {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+.wf-output-success {
+  border-color: var(--color-teal);
+  color: var(--color-teal);
+}
+
+/* CTA fixing progress bar */
+.wf-progress-track {
+  width: 240px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.wf-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: var(--coral);
+  border-radius: 2px;
+  transform-origin: left;
+  animation: wf-progress 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes wf-progress {
+  0%   { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   * { scroll-behavior: auto !important; }
-  /* Blob and stagger animations */
   [style*="blob-drift"] { animation: none !important; }
   [style*="fade-in-up"] { animation: none !important; opacity: 1 !important; }
+  .hero-stagger { animation: none !important; opacity: 1 !important; }
+  /* Workflow pipeline */
+  .wf-cursor { animation: none !important; opacity: 1 !important; }
+  .wf-badge-run { animation: none !important; opacity: 1 !important; }
+  .wf-badge-fix { animation: none !important; }
+  .wf-badge-ok,
+  .wf-badge-err { animation: none !important; }
+  .wf-node-running,
+  .wf-node-fixing { box-shadow: none !important; }
+  .wf-progress-bar { animation: none !important; transform: scaleX(1) !important; }
 }

@@ -1,6 +1,7 @@
 import type { Translations } from "./types";
 
 export const fr: Translations = {
+
   // Header
   header: {
     logo: "Smithers",
@@ -65,51 +66,123 @@ export const fr: Translations = {
     ],
   },
 
+  // Sound Familiar (n8n-style workflow pipelines)
+  soundFamiliar: {
+    sectionTitle: "Ça vous parle?",
+    fixedTitle: "Des systèmes qui tournent tout seuls.",
+    scenarios: [
+      {
+        label: "Trouver la bonne donnée",
+        inputText: "données client1",
+        inputAction: "Chercher",
+        brokenNodes: [
+          { tool: "Google Sheets", label: "Chercher" },
+          { tool: "Gmail", label: "Fouiller" },
+          { tool: "Slack", label: "Demander" },
+        ],
+        fixedNodes: [
+          { tool: "HubSpot", label: "CRM" },
+          { tool: "Zapier", label: "Synchro" },
+          { tool: "Airtable", label: "Enrichir" },
+          { tool: "Anthropic", label: "Résumer" },
+          { tool: "Notion", label: "Journaliser" },
+        ],
+        errorNodeIndex: 2,
+        brokenOutput: "Introuvable",
+        fixedOutput: "profil_client1",
+      },
+      {
+        label: "Automatiser sans casser",
+        inputText: "rapport mensuel",
+        inputAction: "Générer",
+        brokenNodes: [
+          { tool: "Google Sheets", label: "Exporter" },
+          { tool: "Google Docs", label: "Manuel" },
+          { tool: "Gmail", label: "Envoyer" },
+        ],
+        fixedNodes: [
+          { tool: "n8n", label: "Déclencheur" },
+          { tool: "Supabase", label: "Requête" },
+          { tool: "Anthropic", label: "Analyser" },
+          { tool: "Google Sheets", label: "Formater" },
+          { tool: "Slack", label: "Livrer" },
+        ],
+        errorNodeIndex: 1,
+        brokenOutput: "Flux échoué",
+        fixedOutput: "rapport_juin.pdf",
+      },
+      {
+        label: "Obtenir des réponses vite",
+        inputText: "revenus T4",
+        inputAction: "Requête",
+        brokenNodes: [
+          { tool: "Google Docs", label: "Exporter" },
+          { tool: "Google Chat", label: "Demander" },
+          { tool: "Google Calendar", label: "Attendre" },
+        ],
+        fixedNodes: [
+          { tool: "Supabase", label: "Requête" },
+          { tool: "OpenAI", label: "Analyser" },
+          { tool: "Retool", label: "Visualiser" },
+          { tool: "Slack", label: "Partager" },
+        ],
+        errorNodeIndex: 0,
+        brokenOutput: "Délai dépassé",
+        fixedOutput: "847K$ sur 12 clients",
+      },
+    ],
+    ctaLine: "Vos outils fonctionnent. Ils ne fonctionnent juste pas ensemble.",
+    fixedCtaLine: "Mêmes questions. Meilleures réponses. Moins d'onglets.",
+    ctaButton: "On répare ça",
+    fixingText: "On bâtit un système connecté, adapté à votre flux de travail",
+    fixedCtaButton: "Réserver un appel",
+  },
+
   // Services
   services: {
     sectionTitle: "Comment on travaille avec vous",
     intro:
       "Trois formats d'engagement. Choisissez celui qui correspond au travail, ou commencez petit et évoluez vers le suivant.",
-    priceCaption: "Tous les prix en CAD. L'appel découverte est gratuit.",
+    priceCaption: "",
     tiers: [
       {
         name: "Demandes",
-        tagline: "Des correctifs ciblés, bien délimités.",
-        priceFrom: "À partir de 150 $ CAD/h · Payez seulement le temps utilisé",
-        body: "Pour quand quelque chose de précis est cassé ou manquant : une automatisation coincée, un nettoyage de données, un rapport rapide. Vous soumettez la demande, on cadre serré, et on livre en heures ou en jours.",
+        tagline: "Une couverture continue pour les petits trucs.",
+        priceFrom: "",
+        body: "Un forfait qui garde vos systèmes en santé. Petites tâches, correctifs rapides, soins et conseils généraux quand vous en avez besoin. Pas d'heures fixes, pas d'appels de cadrage pour chaque détail.",
         outcomes: [
-          "Correctifs dans vos outils existants",
-          "Petites automatisations",
+          "Correctifs et petites automatisations",
           "Nettoyage et migrations de données",
-          "Rapports ponctuels",
+          "Conseils opérationnels généraux",
+          "Rapports et ajustements ponctuels",
         ],
-        typical: "Quelques heures à quelques jours",
+        typical: "",
       },
       {
         name: "Missions",
         tagline: "Des projets définis avec un résultat clair.",
-        priceFrom: "5 000 $-50 000 $ CAD · Prix fixe, portée écrite",
-        body: "Pour les travaux plus importants qui demandent de la planification, de la conception et un déploiement. Vous recevez un aperçu de Mission avant le début : vous savez exactement ce que vous payez.",
+        priceFrom: "",
+        body: "Pour les travaux plus importants qui demandent de la planification, de la conception et un déploiement. Vous recevez un aperçu de Mission avant le début : vous savez exactement ce qui sera livré et quand. Un seul point de contact, des mises à jour hebdomadaires, et une remise propre que votre équipe peut maintenir.",
         outcomes: [
           "Reconstructions de CRM",
           "Automatisation de bout en bout",
           "Outils internes sur mesure",
           "Flux IA qui livrent vraiment",
         ],
-        typical: "2 à 8 semaines",
+        typical: "",
       },
       {
         name: "Conseil & support",
-        tagline: "Un deuxième avis en tout temps.",
-        priceFrom: "À partir de 2 000 $ CAD/mois · Résiliable en tout temps",
-        body: "Stratégie continue, résolution de problèmes et validation par Slack, courriel ou vidéo. Pour les fondateurs qui veulent un opérateur aguerri dans leur équipe sans l'embaucher.",
+        tagline: "Soins, conseils et formation sur demande.",
+        priceFrom: "",
+        body: "Accompagnement stratégique continu, formation pratique pour votre équipe, et un avis de confiance quand vous en avez besoin. Pour les fondateurs qui veulent un opérateur aguerri dans leur coin.",
         outcomes: [
-          "Orientation stratégique",
-          "Choix d'outils et revue d'architecture",
+          "Orientation stratégique et planification",
+          "Formation et montée en compétences de l'équipe",
+          "Choix d'outils et conseils en architecture",
           "Évaluation de fournisseurs et d'embauches",
-          "Dépannage sur demande",
         ],
-        typical: "Forfait mensuel",
+        typical: "",
       },
     ],
   },

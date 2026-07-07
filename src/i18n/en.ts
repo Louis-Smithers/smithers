@@ -1,6 +1,7 @@
-import type { Translations } from "./types";
+import type { Translations, SoundFamiliarScenario, WorkflowNodeCopy } from "./types";
 
-export type { Translations };
+export type { Translations, SoundFamiliarScenario, WorkflowNodeCopy };
+
 
 export const en: Translations = {
   // Header
@@ -67,51 +68,123 @@ export const en: Translations = {
     ],
   },
 
+  // Sound Familiar (n8n-style workflow pipelines)
+  soundFamiliar: {
+    sectionTitle: "Sound familiar?",
+    fixedTitle: "Systems that run themselves.",
+    scenarios: [
+      {
+        label: "Finding the right data",
+        inputText: "customer1 data",
+        inputAction: "Search",
+        brokenNodes: [
+          { tool: "Google Sheets", label: "Search" },
+          { tool: "Gmail", label: "Dig" },
+          { tool: "Slack", label: "Ask" },
+        ],
+        fixedNodes: [
+          { tool: "HubSpot", label: "CRM" },
+          { tool: "Zapier", label: "Sync" },
+          { tool: "Airtable", label: "Enrich" },
+          { tool: "Anthropic", label: "Summarize" },
+          { tool: "Notion", label: "Log" },
+        ],
+        errorNodeIndex: 2,
+        brokenOutput: "Not found",
+        fixedOutput: "customer1_profile",
+      },
+      {
+        label: "Running without breaking",
+        inputText: "monthly report",
+        inputAction: "Generate",
+        brokenNodes: [
+          { tool: "Google Sheets", label: "Export" },
+          { tool: "Google Docs", label: "Manual" },
+          { tool: "Gmail", label: "Send" },
+        ],
+        fixedNodes: [
+          { tool: "n8n", label: "Trigger" },
+          { tool: "Supabase", label: "Query" },
+          { tool: "Anthropic", label: "Analyze" },
+          { tool: "Google Sheets", label: "Format" },
+          { tool: "Slack", label: "Deliver" },
+        ],
+        errorNodeIndex: 1,
+        brokenOutput: "Flow failed",
+        fixedOutput: "report_june.pdf",
+      },
+      {
+        label: "Getting answers fast",
+        inputText: "Q4 revenue",
+        inputAction: "Query",
+        brokenNodes: [
+          { tool: "Google Docs", label: "Export" },
+          { tool: "Google Chat", label: "Ask" },
+          { tool: "Google Calendar", label: "Wait" },
+        ],
+        fixedNodes: [
+          { tool: "Supabase", label: "Query" },
+          { tool: "OpenAI", label: "Analyze" },
+          { tool: "Retool", label: "Visualize" },
+          { tool: "Slack", label: "Share" },
+        ],
+        errorNodeIndex: 0,
+        brokenOutput: "Timed out",
+        fixedOutput: "$847K across 12 clients",
+      },
+    ],
+    ctaLine: "Your tools work. They just don't work together.",
+    fixedCtaLine: "Same questions. Better answers. Fewer tabs.",
+    ctaButton: "Let's fix it",
+    fixingText: "Building a connected system tailored to your workflow",
+    fixedCtaButton: "Book a call",
+  },
+
   // Services
   services: {
     sectionTitle: "How we work with you",
     intro:
       "Three engagement shapes. Pick the one that fits the work, or start small and grow into the next.",
-    priceCaption: "All prices CAD. Discovery call is free.",
+    priceCaption: "",
     tiers: [
       {
         name: "Requests",
-        tagline: "Small, well-scoped fixes.",
-        priceFrom: "From $150 CAD/hr · Pay only for time used",
-        body: "For when something specific is broken or missing: a stuck automation, a data cleanup, a quick report. You send the request, we scope it tight, and we ship within hours or days.",
+        tagline: "Ongoing coverage for the small stuff.",
+        priceFrom: "",
+        body: "A retainer that keeps your systems healthy. Small tasks, quick fixes, general care and guidance whenever you need it. No fixed hours, no scoping calls for every little thing.",
         outcomes: [
-          "Bug fixes in your existing tools",
-          "Small automations",
+          "Bug fixes and small automations",
           "Data cleanup and migrations",
-          "Ad-hoc reports",
+          "General ops guidance",
+          "Ad-hoc reports and tweaks",
         ],
-        typical: "Hours to a few days",
+        typical: "",
       },
       {
         name: "Missions",
         tagline: "Defined projects with a clear outcome.",
-        priceFrom: "$5,000-$50,000 CAD · Fixed price, written scope",
-        body: "Bigger work that needs scoping, design, and rollout. You get a Mission Overview before we start so you know exactly what you're paying for.",
+        priceFrom: "",
+        body: "Bigger work that needs scoping, design, and rollout. You get a Mission Overview before we start so you know exactly what ships and when. One point of contact, weekly updates, and a clean handoff your team can actually maintain.",
         outcomes: [
           "CRM rebuilds",
           "End-to-end automation",
           "Custom internal tools",
           "AI workflows that actually ship",
         ],
-        typical: "2-8 weeks",
+        typical: "",
       },
       {
         name: "Advisory & Support",
-        tagline: "A second opinion on speed dial.",
-        priceFrom: "From $2,000 CAD/mo · Cancel anytime",
-        body: "Ongoing strategy, troubleshooting, and sanity checks over Slack, email, or video. For founders who want a sharp operator in their corner without hiring one.",
+        tagline: "Care, advice, and training on tap.",
+        priceFrom: "",
+        body: "Ongoing strategic guidance, hands-on training for your team, and a trusted second opinion when you need one. For founders who want a sharp operator in their corner.",
         outcomes: [
-          "Strategic guidance",
-          "Tool selection and architecture review",
+          "Strategic guidance and planning",
+          "Team training and enablement",
+          "Tool selection and architecture advice",
           "Vendor and hire vetting",
-          "On-call troubleshooting",
         ],
-        typical: "Monthly retainer",
+        typical: "",
       },
     ],
   },
@@ -346,9 +419,9 @@ export const en: Translations = {
 
   // Contact
   contact: {
-    h2Pre: "Let’s see if we’re",
+    h2Pre: "Let's see if we're",
     h2Em: "a fit.",
-    body: "Thirty minutes, no slides, no pitch. Tell us what’s broken and we’ll tell you, honestly, whether Smithers is the right team to fix it, and if we’re not, where to look instead.",
+    body: "Thirty minutes, no slides, no pitch. Tell us what's broken and we'll tell you, honestly, whether Smithers is the right team to fix it, and if we're not, where to look instead.",
     contactLabel: "Your point of contact",
     contactName: "Erico Di Teodoro",
     contactRole: "Lead Strategist",

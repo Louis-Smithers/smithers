@@ -47,6 +47,22 @@ export interface FaqItemCopy {
   a: string;
 }
 
+export interface WorkflowNodeCopy {
+  tool: string;
+  label: string;
+}
+
+export interface SoundFamiliarScenario {
+  label: string;
+  inputText: string;
+  inputAction: string;
+  brokenNodes: WorkflowNodeCopy[];
+  fixedNodes: WorkflowNodeCopy[];
+  errorNodeIndex: number;
+  brokenOutput: string;
+  fixedOutput: string;
+}
+
 export interface Translations {
   header: {
     logo: string;
@@ -79,6 +95,16 @@ export interface Translations {
   };
   marquee: {
     items: string[];
+  };
+  soundFamiliar: {
+    sectionTitle: string;
+    fixedTitle: string;
+    scenarios: SoundFamiliarScenario[];
+    ctaLine: string;
+    fixedCtaLine: string;
+    ctaButton: string;
+    fixingText: string;
+    fixedCtaButton: string;
   };
   services: {
     sectionTitle: string;

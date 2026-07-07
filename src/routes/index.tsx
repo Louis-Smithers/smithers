@@ -1,10 +1,10 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { Fragment, useEffect, useRef, useState, useCallback } from "react";
 import { useReducedMotion } from "../lib/useReducedMotion";
 import { useT, type Locale } from "../i18n/useT";
 import { en } from "../i18n/en";
-import type { Translations, TierCopy, StepCopy, CaseStudyCopy, TeamMemberCopy, FaqItemCopy } from "../i18n/types";
+import type { Translations, TierCopy, StepCopy, CaseStudyCopy, TeamMemberCopy, FaqItemCopy, SoundFamiliarScenario } from "../i18n/types";
 
 /* ─── JSON-LD / meta ─────────────────────────────────────────── */
 
@@ -148,9 +148,8 @@ export function SmithersLanding({ locale }: { locale: Locale }) {
           <Hero t={t} />
           <LogoStrip t={t} />
           <Marquee t={t} />
-          <Problem t={t} />
+          <SoundFamiliar t={t} />
           <Services t={t} />
-          <Stack t={t} />
           <HowItWorks t={t} />
           <CaseStudyBanner t={t} />
           <CaseStudies t={t} />
@@ -382,9 +381,6 @@ function SiteHeader({ locale, t }: { locale: Locale; t: T }) {
           <a href="#services" className="underline-grow text-foreground/70 hover:text-foreground">
             {t.header.nav.services}
           </a>
-          <a href="#stack" className="underline-grow text-foreground/70 hover:text-foreground">
-            {t.header.nav.stack}
-          </a>
           <a href="#how" className="underline-grow text-foreground/70 hover:text-foreground">
             {t.header.nav.how}
           </a>
@@ -430,30 +426,36 @@ function Hero({ t }: { t: T }) {
     <section id="top" className="hero-wash relative">
       <div className="mx-auto grid min-h-[88dvh] max-w-[1400px] grid-cols-12 gap-x-6 px-6 pb-20 pt-16 md:px-12 md:pt-24">
         <p
-          className="label-mono col-span-12 mt-2"
-          style={{ color: "var(--color-saffron)" }}
+          className="hero-stagger label-mono col-span-12 mt-2"
+          style={{ color: "var(--color-saffron)", animationDelay: "100ms" }}
         >
           {t.hero.eyebrow}
         </p>
 
         <h1
           ref={ref}
-          className="reveal display col-span-12 mt-10 md:mt-16"
-          style={{ fontSize: "clamp(2.75rem, 8.5vw, 7.5rem)" }}
+          className="hero-stagger reveal display col-span-12 mt-10 md:mt-16"
+          style={{ fontSize: "clamp(2.75rem, 8.5vw, 7.5rem)", animationDelay: "250ms" }}
         >
           {t.hero.h1Pre}{" "}
           <em className="display-italic text-coral">{t.hero.h1Em}</em>
         </h1>
 
-        <div className="col-span-12 mt-auto pt-16 md:col-span-8 md:col-start-1 md:pt-24">
+        <div
+          className="hero-stagger col-span-12 mt-auto pt-16 md:col-span-8 md:col-start-1 md:pt-24"
+          style={{ animationDelay: "450ms" }}
+        >
           <p className="text-lg leading-relaxed text-foreground/70 md:text-xl">
             {t.hero.sub}
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <div
+            className="hero-stagger mt-10 flex flex-wrap items-center gap-x-8 gap-y-4"
+            style={{ animationDelay: "600ms" }}
+          >
             <a
               ref={ctaRef}
               href="mailto:e@smithers.app?subject=Discovery%20call"
-              className="inline-flex min-h-11 items-center justify-center bg-coral px-6 py-3 text-sm font-medium text-ink transition-opacity hover:opacity-90"
+              className="inline-flex min-h-11 items-center justify-center bg-coral px-6 py-3 text-sm font-medium text-ink transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
             >
               {t.hero.ctaBook}
             </a>
@@ -524,54 +526,412 @@ function Marquee({ t }: { t: T }) {
   );
 }
 
-/* ─── Problem ────────────────────────────────────────────────── */
+/* ─── Sound Familiar (n8n-style workflow pipelines) ────────── */
 
-function Problem({ t }: { t: T }) {
+/** Tool icon slug → Simple Icons CDN URL map. */
+const TOOL_SLUG_MAP: Record<string, { slug: string; color: string }> = {
+  /* ── Proper tools (fixed state) ──────────────── */
+  HubSpot: { slug: "hubspot", color: "FF7A59" },
+  Salesforce: { slug: "salesforce", color: "00A1E0" },
+  Airtable: { slug: "airtable", color: "FCB400" },
+  Notion: { slug: "notion", color: "EAE6DD" },
+  Zapier: { slug: "zapier", color: "FF4F00" },
+  Make: { slug: "make", color: "6D00CC" },
+  n8n: { slug: "n8n", color: "EA4B71" },
+  Supabase: { slug: "supabase", color: "3ECF8E" },
+  Retool: { slug: "retool", color: "EAE6DD" },
+  "Google Sheets": { slug: "googlesheets", color: "34A853" },
+  Stripe: { slug: "stripe", color: "635BFF" },
+  QuickBooks: { slug: "quickbooks", color: "2CA01C" },
+  Shopify: { slug: "shopify", color: "95BF47" },
+  OpenAI: { slug: "openai", color: "EAE6DD" },
+  Anthropic: { slug: "anthropic", color: "D97757" },
+  Slack: { slug: "slack", color: "E01E5A" },
+  /* ── Google / generic tools (broken state) ──── */
+  Gmail: { slug: "gmail", color: "EA4335" },
+  "Google Docs": { slug: "googledocs", color: "4285F4" },
+  "Google Chat": { slug: "googlechat", color: "00AC47" },
+  "Google Calendar": { slug: "googlecalendar", color: "4285F4" },
+};
+
+function SmallToolIcon({ name }: { name: string }) {
+  const info = TOOL_SLUG_MAP[name];
+
+  if (!info) {
+    return (
+      <span
+        className="flex h-5 w-5 items-center justify-center rounded-sm text-[9px] font-semibold"
+        style={{
+          backgroundColor: "#3A3D47",
+          color: "#EAE6DD",
+        }}
+      >
+        {name[0]}
+      </span>
+    );
+  }
+
   return (
-    <section className="border-t border-border bg-[var(--ink-warm)]">
+    <img
+      src={`/icons/${info.slug}.svg`}
+      alt={name}
+      width={20}
+      height={20}
+      className="h-5 w-5 object-contain"
+    />
+  );
+}
+
+type WfNodeStatus = "idle" | "running" | "success" | "error" | "fixing";
+
+function SoundFamiliar({ t }: { t: T }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [globalPhase, setGlobalPhase] = useState<"broken" | "fixing" | "fixed">("broken");
+  const reducedMotion = useReducedMotion();
+  const ctaRef = useMagneticHover();
+
+  /* Trigger animation when section scrolls into view */
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (reducedMotion) {
+      setVisible(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reducedMotion]);
+
+  const handleFix = useCallback(() => {
+    setGlobalPhase("fixing");
+    /* Preload fixed-state icons while the progress bar runs */
+    t.soundFamiliar.scenarios.forEach((s: SoundFamiliarScenario) => {
+      s.fixedNodes.forEach((node) => {
+        const info = TOOL_SLUG_MAP[node.tool];
+        if (info) {
+          const img = new Image();
+          img.src = `/icons/${info.slug}.svg`;
+        }
+      });
+    });
+    setTimeout(() => setGlobalPhase("fixed"), 1800);
+  }, [t.soundFamiliar.scenarios]);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="scroll-mt-20 border-t border-border bg-[var(--ink-warm)]"
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading title={t.problem.sectionTitle} />
-        <p className="max-w-2xl text-lg text-foreground/65">{t.problem.intro}</p>
-        <ul className="mt-16">
-          {t.problem.pains.map((p: string, i: number) => (
-            <PainRow
+        {/* Title swaps after fix */}
+        <SectionHeading
+          title={globalPhase === "fixed" ? t.soundFamiliar.fixedTitle : t.soundFamiliar.sectionTitle}
+        />
+
+        {/* Workflow pipelines */}
+        <div className="mt-12 space-y-12">
+          {t.soundFamiliar.scenarios.map((scenario: SoundFamiliarScenario, i: number) => (
+            <WorkflowPipeline
               key={i}
+              scenario={scenario}
+              globalPhase={globalPhase}
+              visible={visible}
               index={i}
-              text={p}
-              last={i === t.problem.pains.length - 1}
+              reducedMotion={reducedMotion}
             />
           ))}
-        </ul>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-20 text-center">
+          <p
+            className="display text-xl md:text-2xl"
+            style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)" }}
+          >
+            {globalPhase === "fixed" ? t.soundFamiliar.fixedCtaLine : t.soundFamiliar.ctaLine}
+          </p>
+
+          {globalPhase === "broken" && (
+            <button
+              onClick={handleFix}
+              className="mt-10 inline-flex min-h-14 cursor-pointer items-center justify-center bg-coral px-12 py-4 text-base font-medium text-ink transition-all hover:opacity-90 active:scale-[0.98]"
+            >
+              {t.soundFamiliar.ctaButton}
+            </button>
+          )}
+
+          {globalPhase === "fixing" && (
+            <div className="mt-10 flex flex-col items-center gap-4">
+              <p className="text-sm text-foreground/65">
+                {t.soundFamiliar.fixingText}
+              </p>
+              <div className="wf-progress-track">
+                <div className="wf-progress-bar" />
+              </div>
+            </div>
+          )}
+
+          {globalPhase === "fixed" && (
+            <a
+              ref={ctaRef}
+              href="mailto:e@smithers.app?subject=Discovery%20call"
+              className="mt-10 inline-flex min-h-14 items-center justify-center bg-coral px-12 py-4 text-base font-medium text-ink transition-all hover:opacity-90 active:scale-[0.98]"
+            >
+              {t.soundFamiliar.fixedCtaButton}
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );
 }
 
-function PainRow({
+/* ── Workflow pipeline row ─────────────────────────────────── */
+
+function WorkflowPipeline({
+  scenario,
+  globalPhase,
+  visible,
   index,
-  text,
-  last,
+  reducedMotion,
 }: {
+  scenario: SoundFamiliarScenario;
+  globalPhase: "broken" | "fixing" | "fixed";
+  visible: boolean;
   index: number;
-  text: string;
-  last: boolean;
+  reducedMotion: boolean;
 }) {
-  const ref = useReveal<HTMLLIElement>();
+  const [typedText, setTypedText] = useState("");
+  const [nodeStatuses, setNodeStatuses] = useState<WfNodeStatus[]>(
+    () => scenario.brokenNodes.map(() => "idle"),
+  );
+  const [showOutput, setShowOutput] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  }, []);
+
+  useEffect(() => {
+    clearTimers();
+    if (!visible) return;
+
+    const isFixed = globalPhase === "fixed";
+    const nodes = isFixed ? scenario.fixedNodes : scenario.brokenNodes;
+
+    const addTimer = (fn: () => void, delay: number) => {
+      timersRef.current.push(setTimeout(fn, delay));
+    };
+
+    /* ── Fixing phase: just mark error nodes ────────────── */
+    if (globalPhase === "fixing") {
+      setNodeStatuses((prev) =>
+        prev.map((s, i) => (i === scenario.errorNodeIndex ? "fixing" : s)),
+      );
+      setShowOutput(false);
+      return;
+    }
+
+    /* ── Broken / Fixed: run the full sequence ──────────── */
+    const stagger = isFixed ? index * 600 : index * 1200;
+
+    /* Reset everything */
+    setTypedText("");
+    setNodeStatuses(nodes.map(() => "idle"));
+    setShowOutput(false);
+    setIsError(false);
+
+    /* Reduced motion: skip to end state immediately */
+    if (reducedMotion) {
+      addTimer(() => {
+        setTypedText(scenario.inputText);
+        setNodeStatuses(
+          nodes.map((_, i) =>
+            !isFixed && i === scenario.errorNodeIndex ? "error" : "success",
+          ),
+        );
+        setShowOutput(true);
+        setIsError(!isFixed);
+      }, 100);
+      return;
+    }
+
+    const charDelay = 45;
+    const text = scenario.inputText;
+
+    addTimer(() => {
+      /* Type characters one by one */
+      for (let c = 1; c <= text.length; c++) {
+        addTimer(() => setTypedText(text.slice(0, c)), c * charDelay);
+      }
+
+      const typingDone = text.length * charDelay + 250;
+
+      /* Run nodes sequentially */
+      nodes.forEach((_, ni) => {
+        addTimer(() => {
+          setNodeStatuses((prev) => {
+            const next = [...prev];
+            next[ni] = "running";
+            return next;
+          });
+        }, typingDone + ni * 500);
+
+        addTimer(() => {
+          setNodeStatuses((prev) => {
+            const next = [...prev];
+            next[ni] =
+              !isFixed && ni === scenario.errorNodeIndex ? "error" : "success";
+            return next;
+          });
+        }, typingDone + ni * 500 + 380);
+      });
+
+      /* Show output */
+      addTimer(() => {
+        setShowOutput(true);
+        setIsError(!isFixed);
+      }, typingDone + nodes.length * 500 + 500);
+    }, stagger);
+
+    return clearTimers;
+  }, [visible, globalPhase, index, scenario, reducedMotion, clearTimers]);
+
+  /* Cleanup on unmount */
+  useEffect(() => clearTimers, [clearTimers]);
+
+  const isFixed = globalPhase === "fixed";
+  const activeNodes = isFixed ? scenario.fixedNodes : scenario.brokenNodes;
+  const inputDone = typedText.length === scenario.inputText.length;
+
   return (
-    <li
-      ref={ref}
-      className={`reveal grid grid-cols-12 items-baseline gap-6 border-t border-border py-7 transition-colors hover:bg-card/40 md:py-9 ${
-        last ? "border-b" : ""
-      }`}
-    >
-      <span className="label-mono col-span-2 md:col-span-1">0{index + 1}</span>
+    <div className="group">
+      {/* Scenario label */}
       <p
-        className="display col-span-10 md:col-span-11"
-        style={{ fontSize: "clamp(1.375rem, 2.6vw, 2.25rem)", lineHeight: 1.15 }}
+        className="label-mono mb-4"
+        style={{ color: "var(--color-teal)" }}
       >
-        {text}
+        {scenario.label}
       </p>
-    </li>
+
+      {/* Pipeline — fills width, horizontal scroll on mobile */}
+      <div className="wf-pipeline-scroll flex items-center gap-2 overflow-x-auto pt-3 pb-2 md:gap-3">
+        {/* Input field */}
+        <div className="wf-input-field shrink-0">
+          <span className="wf-typed-text font-mono text-xs text-foreground/90">
+            {typedText}
+            <span className="wf-cursor" aria-hidden />
+          </span>
+          <span
+            className={`wf-action-btn label-mono ${inputDone ? "wf-action-active" : ""}`}
+          >
+            {scenario.inputAction}
+          </span>
+        </div>
+
+        {/* Connector out of input */}
+        <WfConnector active={inputDone} />
+
+        {/* Nodes + connectors */}
+        {activeNodes.map((node, ni) => (
+          <Fragment key={`${isFixed ? "f" : "b"}-${ni}`}>
+            <WfNode
+              tool={node.tool}
+              label={node.label}
+              status={nodeStatuses[ni]}
+            />
+            {ni < activeNodes.length - 1 && (
+              <WfConnector active={nodeStatuses[ni] === "success"} />
+            )}
+          </Fragment>
+        ))}
+
+        {/* Connector into output */}
+        <WfConnector
+          active={nodeStatuses[nodeStatuses.length - 1] === "success"}
+        />
+
+        {/* Output field */}
+        <div
+          className={`wf-output-field shrink-0 font-mono text-xs ${
+            showOutput ? "wf-output-visible" : "wf-output-hidden"
+          } ${isError ? "wf-output-error" : "wf-output-success"}`}
+        >
+          {showOutput
+            ? isError
+              ? scenario.brokenOutput
+              : scenario.fixedOutput
+            : " "}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Workflow sub-components ───────────────────────────────── */
+
+function WfConnector({ active }: { active: boolean }) {
+  return (
+    <div className="flex shrink-0 items-center">
+      <div className={`wf-connector-line ${active ? "wf-connector-active" : ""}`} />
+      <svg
+        viewBox="0 0 8 8"
+        className="h-2 w-2 shrink-0 transition-colors duration-300"
+        fill="currentColor"
+        style={{ color: active ? "var(--color-teal)" : "var(--border)" }}
+        aria-hidden
+      >
+        <polygon points="0,0 8,4 0,8" />
+      </svg>
+    </div>
+  );
+}
+
+function WfNode({
+  tool,
+  label,
+  status,
+}: {
+  tool: string;
+  label: string;
+  status: WfNodeStatus;
+}) {
+  const borderColor: Record<WfNodeStatus, string> = {
+    idle: "var(--border)",
+    running: "var(--color-saffron)",
+    success: "var(--color-teal)",
+    error: "var(--coral)",
+    fixing: "var(--color-saffron)",
+  };
+
+  return (
+    <div
+      className={`wf-node shrink-0 ${status === "running" ? "wf-node-running" : ""} ${status === "fixing" ? "wf-node-fixing" : ""}`}
+      style={{ borderColor: borderColor[status] }}
+    >
+      <SmallToolIcon name={tool} />
+      <span className="wf-node-label">{label}</span>
+
+      {/* Status badge */}
+      <span className="wf-node-status" aria-hidden>
+        {status === "success" && <span className="wf-badge-ok">&#10003;</span>}
+        {status === "error" && <span className="wf-badge-err">&#10005;</span>}
+        {status === "running" && <span className="wf-badge-run" />}
+        {status === "fixing" && <span className="wf-badge-fix">&#9881;</span>}
+      </span>
+    </div>
   );
 }
 
@@ -590,7 +950,9 @@ function Services({ t }: { t: T }) {
           ))}
         </div>
 
-        <p className="mt-8 label-mono opacity-50">{t.services.priceCaption}</p>
+        {t.services.priceCaption && (
+          <p className="mt-8 label-mono opacity-50">{t.services.priceCaption}</p>
+        )}
       </div>
     </section>
   );
@@ -598,7 +960,7 @@ function Services({ t }: { t: T }) {
 
 function ServiceCard({ tier }: { tier: TierCopy }) {
   return (
-    <article className="group relative flex flex-col bg-background p-8 transition-colors duration-200 hover:bg-card md:p-10">
+    <article className="group relative flex flex-col bg-background p-8 transition-all duration-200 hover:bg-card hover:translate-y-[-2px] md:p-10">
       <h3 className="display text-3xl md:text-4xl">
         <span className="relative inline-block">
           {tier.name}
@@ -606,12 +968,6 @@ function ServiceCard({ tier }: { tier: TierCopy }) {
         </span>
       </h3>
       <p className="mt-3 text-sm text-coral">{tier.tagline}</p>
-      <p
-        className="mt-1.5 font-mono text-xs"
-        style={{ color: "var(--color-saffron)", opacity: 0.9 }}
-      >
-        {tier.priceFrom}
-      </p>
       <p className="mt-5 text-base text-foreground/75">{tier.body}</p>
       <ul className="mt-6 space-y-2 text-sm text-foreground/85">
         {tier.outcomes.map((o) => (
@@ -621,192 +977,18 @@ function ServiceCard({ tier }: { tier: TierCopy }) {
           </li>
         ))}
       </ul>
-      <div className="mt-auto pt-10">
-        <span className="label-mono">
-          Typical · <span className="text-foreground">{tier.typical}</span>
-        </span>
-      </div>
+      {tier.typical && (
+        <div className="mt-auto pt-10">
+          <span className="label-mono">
+            <span className="text-foreground">{tier.typical}</span>
+          </span>
+        </div>
+      )}
     </article>
   );
 }
 
-/* ─── Stack ──────────────────────────────────────────────────── */
-
-type Tool = { name: string; slug: string; color: string };
-type ToolGroup = { label: string; body: string; tools: Tool[] };
-
-const TOOL_GROUPS: ToolGroup[] = [
-  {
-    label: "CRMs",
-    body: "Where customer data lives.",
-    tools: [
-      { name: "HubSpot", slug: "hubspot", color: "FF7A59" },
-      { name: "Salesforce", slug: "salesforce", color: "00A1E0" },
-      { name: "Pipedrive", slug: "pipedrive", color: "1FB6FF" },
-    ],
-  },
-  {
-    label: "Ops & data",
-    body: "Where work gets organized.",
-    tools: [
-      { name: "Airtable", slug: "airtable", color: "FCB400" },
-      { name: "Notion", slug: "notion", color: "EAE6DD" },
-      { name: "monday.com", slug: "mondaydotcom", color: "FF3D57" },
-    ],
-  },
-  {
-    label: "Automation",
-    body: "Where things start moving on their own.",
-    tools: [
-      { name: "Zapier", slug: "zapier", color: "FF4F00" },
-      { name: "Make", slug: "make", color: "6D00CC" },
-      { name: "n8n", slug: "n8n", color: "EA4B71" },
-    ],
-  },
-  {
-    label: "Internal tools",
-    body: "When off-the-shelf doesn't fit.",
-    tools: [
-      { name: "Supabase", slug: "supabase", color: "3ECF8E" },
-      { name: "Retool", slug: "retool", color: "EAE6DD" },
-    ],
-  },
-  {
-    label: "Commerce & finance",
-    body: "Where money is counted.",
-    tools: [
-      { name: "Stripe", slug: "stripe", color: "635BFF" },
-      { name: "QuickBooks", slug: "quickbooks", color: "2CA01C" },
-      { name: "Shopify", slug: "shopify", color: "95BF47" },
-    ],
-  },
-  {
-    label: "AI",
-    body: "Where it earns its keep.",
-    tools: [
-      { name: "OpenAI", slug: "openai", color: "10A37F" },
-      { name: "Anthropic", slug: "anthropic", color: "D97757" },
-    ],
-  },
-];
-
-function ToolMark({ name, slug, color }: Tool) {
-  const [src, setSrc] = useState(
-    `https://cdn.simpleicons.org/${slug}/${color}`,
-  );
-  const [failed, setFailed] = useState(false);
-
-  const tryNextOrFail = () => {
-    const mirror = `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`;
-    if (src !== mirror) {
-      setSrc(mirror);
-      return;
-    }
-    setFailed(true);
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-2.5">
-      <div className="flex h-8 w-8 items-center justify-center md:h-9 md:w-9">
-        {failed ? (
-          <span
-            aria-hidden
-            className="flex h-7 w-7 items-center justify-center rounded-md text-sm font-semibold md:h-8 md:w-8"
-            style={{ backgroundColor: `#${color}`, color: "#0F1014" }}
-          >
-            {name[0]}
-          </span>
-        ) : (
-          <img
-            src={src}
-            alt=""
-            width={32}
-            height={32}
-            loading="lazy"
-            className="h-7 w-7 object-contain opacity-95 transition-opacity duration-200 group-hover/tool:opacity-100 md:h-8 md:w-8"
-            onError={tryNextOrFail}
-          />
-        )}
-      </div>
-      <span className="text-xs leading-tight text-foreground/60 transition-colors duration-200 group-hover/tool:text-foreground">
-        {name}
-      </span>
-    </div>
-  );
-}
-
-function Stack({ t }: { t: T }) {
-  return (
-    <section
-      id="stack"
-      className="scroll-mt-20 border-t border-border bg-[var(--ink-cool)]"
-    >
-      <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
-        <SectionHeading title={t.stack.sectionTitle} />
-        <p className="max-w-2xl text-lg text-foreground/65">{t.stack.intro}</p>
-
-        <ul className="mt-16">
-          {TOOL_GROUPS.map((g, i) => (
-            <ToolRow
-              key={g.label}
-              group={g}
-              last={i === TOOL_GROUPS.length - 1}
-            />
-          ))}
-        </ul>
-
-        <p className="mt-14 max-w-2xl text-sm text-foreground/55">
-          {t.stack.footer}
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function ToolRow({ group, last }: { group: ToolGroup; last: boolean }) {
-  const ref = useReveal<HTMLLIElement>();
-  const reducedMotion = useReducedMotion();
-
-  return (
-    <li
-      ref={ref}
-      className={`reveal grid grid-cols-12 items-center gap-x-6 gap-y-8 border-t border-border py-10 md:py-12 ${
-        last ? "border-b" : ""
-      }`}
-    >
-      <div className="col-span-12 md:col-span-4">
-        <h3
-          className="display text-2xl md:text-3xl"
-          style={{ color: "var(--color-teal)", fontWeight: 500 }}
-        >
-          {group.label}
-        </h3>
-        <p className="mt-2 text-sm text-foreground/55">{group.body}</p>
-      </div>
-      <ul
-        aria-label={`${group.label} tools`}
-        className="col-span-12 flex flex-wrap items-start gap-x-10 gap-y-7 md:col-span-8 md:gap-x-12"
-      >
-        {group.tools.map((tool, idx) => (
-          <li
-            key={tool.slug}
-            className="group/tool min-w-[3.5rem]"
-            style={
-              reducedMotion
-                ? {}
-                : {
-                    opacity: 0,
-                    animation: `fade-in-up 400ms ease forwards ${idx * 50}ms`,
-                  }
-            }
-          >
-            <ToolMark {...tool} />
-          </li>
-        ))}
-      </ul>
-    </li>
-  );
-}
+/* (Stack section removed — tools now shown in SoundFamiliar resolution pipeline) */
 
 /* ─── How it works ───────────────────────────────────────────── */
 
@@ -815,13 +997,13 @@ function HowItWorks({ t }: { t: T }) {
     <section id="how" className="scroll-mt-20 border-t border-border">
       <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
         <SectionHeading title={t.how.sectionTitle} />
-        <ol className="mt-8 grid grid-cols-12 gap-x-6">
+        <ol className="mt-12 grid grid-cols-1 gap-0 md:grid-cols-4">
           {t.how.steps.map((s: StepCopy, i: number) => (
-            <Step
+            <HowStep
               key={s.t}
               step={s}
-              orderLabel={t.how.orderLabels[i]}
-              last={i === t.how.steps.length - 1}
+              index={i}
+              total={t.how.steps.length}
             />
           ))}
         </ol>
@@ -830,35 +1012,82 @@ function HowItWorks({ t }: { t: T }) {
   );
 }
 
-function Step({
+const HOW_ICONS = [
+  /* Phone / call */
+  <svg key="call" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+  /* Search / diagnosis */
+  <svg key="diag" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+  /* Document / proposal */
+  <svg key="prop" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+  /* Rocket / build & handoff */
+  <svg key="ship" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>,
+];
+
+function HowStep({
   step,
-  orderLabel,
-  last,
+  index,
+  total,
 }: {
   step: { t: string; d: string };
-  orderLabel: string;
-  last: boolean;
+  index: number;
+  total: number;
 }) {
   const ref = useReveal<HTMLLIElement>();
+  const isLast = index === total - 1;
+
   return (
     <li
       ref={ref}
-      className={`reveal relative col-span-12 grid grid-cols-12 items-start gap-x-6 border-t border-border py-12 ${
-        last ? "border-b" : ""
-      }`}
+      className="reveal group relative flex flex-col items-start px-0 py-8 md:px-6 md:py-0"
+      style={{ transitionDelay: `${index * 80}ms` }}
     >
-      <div className="col-span-12 md:col-span-4 md:col-start-3">
-        <p
-          className="label-mono mb-2"
-          style={{ color: "var(--color-teal)", fontWeight: 500 }}
-        >
-          {orderLabel}
-        </p>
-        <h3 className="display" style={{ fontSize: "clamp(1.5rem, 2.4vw, 2rem)" }}>
-          {step.t}
-        </h3>
+      {/* Connecting line (horizontal on desktop, vertical on mobile) */}
+      {!isLast && (
+        <>
+          {/* Desktop horizontal line */}
+          <div
+            aria-hidden
+            className="absolute right-0 top-[28px] hidden h-px w-6 md:block"
+            style={{ background: "var(--color-teal)", opacity: 0.3 }}
+          />
+          {/* Mobile vertical line */}
+          <div
+            aria-hidden
+            className="absolute bottom-0 left-[19px] h-8 w-px md:hidden"
+            style={{ background: "var(--color-teal)", opacity: 0.3 }}
+          />
+        </>
+      )}
+
+      {/* Icon circle */}
+      <div
+        className="flex h-10 w-10 shrink-0 items-center justify-center border transition-colors duration-300 group-hover:border-coral"
+        style={{
+          borderColor: "color-mix(in oklab, var(--teal) 40%, transparent)",
+          color: "var(--color-teal)",
+        }}
+      >
+        {HOW_ICONS[index]}
       </div>
-      <p className="col-span-12 mt-3 text-base text-foreground/70 md:col-span-6 md:col-start-7 md:mt-0 md:text-lg">
+
+      {/* Step number */}
+      <p
+        className="label-mono mt-5"
+        style={{ color: "var(--color-teal)", fontWeight: 500 }}
+      >
+        {String(index + 1).padStart(2, "0")}
+      </p>
+
+      {/* Title */}
+      <h3
+        className="display mt-2"
+        style={{ fontSize: "clamp(1.25rem, 2vw, 1.5rem)" }}
+      >
+        {step.t}
+      </h3>
+
+      {/* Description */}
+      <p className="mt-3 text-sm text-foreground/65 leading-relaxed">
         {step.d}
       </p>
     </li>
