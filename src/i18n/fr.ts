@@ -389,10 +389,6 @@ export const fr: Translations = {
         a: "On travaille couramment avec les plateformes sur lesquelles la plupart des PME s'appuient déjà : des CRM comme HubSpot, Salesforce et Pipedrive; des outils d'opérations et de données comme Airtable, Notion et Monday; des plateformes d'automatisation comme Zapier, Make et n8n; des bases de données et outils internes comme Supabase et Retool; et des outils de commerce et de finance comme Stripe, QuickBooks et Shopify. On construit aussi des outils internes sur mesure quand rien d'existant ne convient. Pour le travail IA, on livre des flux propulsés par les API OpenAI et Anthropic.",
       },
       {
-        q: "Combien ça coûte de travailler avec Smithers?",
-        a: "Les Demandes (des correctifs ponctuels et bien ciblés) sont facturées à l'heure ou en petits blocs à prix fixe. Les Missions sont des projets à prix fixe cadrés à partir d'un aperçu de Mission écrit, généralement entre 5 000 $ et 50 000 $ CAD selon la complexité. Les forfaits de conseil et support commencent à 2 000 $ CAD par mois. L'appel d'introduction est gratuit, et vous verrez toujours la portée et le prix par écrit avant que tout travail payant commence.",
-      },
-      {
         q: "Combien de temps dure une Mission typique?",
         a: "La plupart des Missions se déroulent sur 2 à 8 semaines du coup d'envoi à la remise. Les Missions plus courtes portent généralement sur une seule automatisation ou construction d'outil; les plus longues impliquent la reconstruction d'un CRM, l'intégration de plusieurs systèmes, ou la livraison d'un flux IA de bout en bout. On cadre chaque Mission avec un échéancier écrit avant que vous vous engagiez, pour que vous sachiez ce que vous payez et quand ça arrive.",
       },

@@ -391,10 +391,6 @@ export const en: Translations = {
         a: "We work fluently with the platforms most small businesses already rely on: CRMs like HubSpot, Salesforce, and Pipedrive; data and ops tools like Airtable, Notion, and Monday; automation platforms like Zapier, Make, and n8n; databases and internal tooling like Supabase and Retool; and commerce and finance tools like Stripe, QuickBooks, and Shopify. We also build custom internal tools when off-the-shelf doesn’t fit. For AI work, we ship LLM-powered workflows using the OpenAI and Anthropic APIs.",
       },
       {
-        q: "How much does it cost to work with Smithers?",
-        a: "Requests (small, scoped fixes) are billed hourly or in small fixed-price blocks. Missions are fixed-price projects scoped from a written Mission Overview, typically ranging from $5,000 to $50,000 CAD depending on complexity. Advisory and support retainers start at $2,000 CAD per month. The intro call is free, and you’ll always see scope and price in writing before any paid work starts.",
-      },
-      {
         q: "How long does a typical Mission take?",
         a: "Most Missions run between 2 and 8 weeks from kickoff to handoff. Shorter Missions are usually a single automation or tool build; longer ones involve rebuilding a CRM, stitching together multiple systems, or shipping an AI workflow end-to-end. We scope every Mission with a written timeline before you commit, so you know what you’re paying for and when it lands.",
       },
